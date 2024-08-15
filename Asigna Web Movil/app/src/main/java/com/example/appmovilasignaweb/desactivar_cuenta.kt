@@ -20,7 +20,7 @@ class desactivar_cuenta : AppCompatActivity() {
         }
     }
     fun volver(view: View) {
-        var intent = Intent(application, espacios::class.java)
+        var intent = Intent(application, miperfil::class.java)
         startActivity(intent)
     }
 }
