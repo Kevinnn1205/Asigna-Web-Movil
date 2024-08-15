@@ -23,8 +23,8 @@
 
         <EditText
             android:id="@+id/textView2"
-            android:layout_width="367dp"
-            android:layout_height="102dp"
+            android:layout_width="366dp"
+            android:layout_height="107dp"
             android:fontFamily="@font/candal"
             android:text="Recuperar contraseña"
             android:textAlignment="center"
@@ -75,6 +75,7 @@
             android:layout_height="61dp"
             android:backgroundTint="#3EBFFF"
             android:fontFamily="@font/candal"
+            android:onClick="iringresarcodigo"
             android:text="Enviar"
             android:textColor="#202C4A"
             android:textSize="24sp"

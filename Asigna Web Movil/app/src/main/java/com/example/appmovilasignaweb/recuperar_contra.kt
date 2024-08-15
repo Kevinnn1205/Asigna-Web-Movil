@@ -23,4 +23,8 @@ class recuperar_contra : AppCompatActivity() {
         var intent= Intent(application,inicio_sesion::class.java)
         startActivity(intent)
     }
+    fun iringresarcodigo(view: View){
+        var intent= Intent(application,ingresarcodigo::class.java)
+        startActivity(intent)
+    }
 }
