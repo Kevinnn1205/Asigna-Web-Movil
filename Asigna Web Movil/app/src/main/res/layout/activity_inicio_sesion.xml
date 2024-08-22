@@ -37,7 +37,7 @@
             app:layout_constraintVertical_bias="0.042" />
 
         <EditText
-            android:id="@+id/editTextTextEmailAddress"
+            android:id="@+id/txtTipoDocumento"
             android:layout_width="382dp"
             android:layout_height="51dp"
             android:background="@drawable/rounded_edit_text"
@@ -110,7 +110,7 @@
             app:layout_constraintVertical_bias="0.804" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btnGuardar"
             android:layout_width="153dp"
             android:layout_height="61dp"
             android:backgroundTint="#3EBFFF"

@@ -63,7 +63,7 @@ Te notificaremos una vez que la
             app:layout_constraintVertical_bias="0.47" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btnGuardar"
             android:layout_width="305dp"
             android:layout_height="65dp"
             android:backgroundTint="#3EBFFF"

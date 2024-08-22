@@ -24,4 +24,8 @@ class MainActivity : AppCompatActivity() {
         var intent= Intent(application,inicio_sesion::class.java)
         startActivity(intent)
     }
+    fun ircrearcuenta(view: View){
+        var intent= Intent(application,crear_cuenta::class.java)
+        startActivity(intent)
+    }
 }
