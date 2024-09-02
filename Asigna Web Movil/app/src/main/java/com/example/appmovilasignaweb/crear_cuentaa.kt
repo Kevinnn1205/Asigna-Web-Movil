@@ -106,7 +106,7 @@ class crear_cuentaa : Fragment() {
         txtTipoDocumento=view.findViewById(R.id.txtTipoDocumento)
         txtNumeroDocumento=view.findViewById(R.id.txtNumeroDocumento)
         txtNombreCompleto=view.findViewById(R.id.txtNombreCompleto)
-        txtRol=view.findViewById(R.id.txtRol)
+        txtRol=view.findViewById(R.id.txtHora_entrada)
         txtCorreo=view.findViewById(R.id.txtCorreo)
         txtTelefono=view.findViewById(R.id.txtTelefono)
         btnGuardar=view.findViewById(R.id.btnGuardar)

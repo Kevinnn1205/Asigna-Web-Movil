@@ -40,4 +40,9 @@ class espacios : AppCompatActivity() {
         startActivity(intent)
     }
 
+    fun irCrearReserva(view: View) {
+        var intent = Intent(application, Contenedor_crear_reserva::class.java)
+        startActivity(intent)
+    }
+
 }
