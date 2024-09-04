@@ -70,15 +70,13 @@
 
     <Spinner
         android:id="@+id/SpinnerNombreEspacio"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="382dp"
+        android:layout_height="51dp"
         android:animationCache="true"
-        android:backgroundTint="#FFFBFB"
-        android:outlineAmbientShadowColor="#E2D7D7"
-        android:outlineSpotShadowColor="#EFEFEF"
+        android:background="@drawable/rounded_edit_text"
         android:spinnerMode="dialog"
         android:textColor="#FAF6F6"
-        android:textSize="20sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/btnGuardar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -254,33 +252,9 @@
         app:layout_constraintVertical_bias="0.608" />
 
     <ImageView
-        android:id="@+id/imageView9"
-        android:layout_width="53dp"
-        android:layout_height="47dp"
-        android:src="@mipmap/timesvgrepo"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.918"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.745" />
-
-    <ImageView
-        android:id="@+id/imageView10"
-        android:layout_width="53dp"
-        android:layout_height="47dp"
-        android:src="@mipmap/timesvgrepo"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.918"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.878" />
-
-    <ImageView
         android:id="@+id/hora_entrada"
-        android:layout_width="53dp"
-        android:layout_height="48dp"
+        android:layout_width="51dp"
+        android:layout_height="45dp"
         android:src="@mipmap/timealarmr"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/txtFecha_entrada"

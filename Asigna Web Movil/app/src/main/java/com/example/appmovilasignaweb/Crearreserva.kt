@@ -163,9 +163,18 @@ class Crearreserva : Fragment() {
         val txtFechaEntrada = view.findViewById<EditText>(R.id.txtFecha_entrada)
         val txtFechaSalida = view.findViewById<EditText>(R.id.txtFecha_salida)
 
+        btnGuardar = view.findViewById(R.id.btnGuardar)
+
         // Nuevas referencias para los campos de hora
         txtHora_entrada = view.findViewById(R.id.txtHora_entrada)
         txtHora_salida = view.findViewById(R.id.txtHora_salida)
+
+        // Configurar el Spinner
+        val spinner: Spinner = view.findViewById(R.id.SpinnerNombreEspacio)
+        val opciones = arrayOf("Seleccionar...", "Lector", "Biblioteca", "Administrador")
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, opciones)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = adapter
 
         // Asignar los listeners de clic a los botones
         btnCalendario.setOnClickListener {
@@ -184,10 +193,6 @@ class Crearreserva : Fragment() {
         txtHora_salida.setOnClickListener {
             mostrarHora(txtHora_salida)
         }
-        val opciones = arrayOf("Seleccionar...", "Lector", "Biblioteca", "Administrador")
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, opciones)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        (txtNombre_espacio as Spinner).adapter = adapter
 
         btnGuardar.setOnClickListener {
             crearReserva()
