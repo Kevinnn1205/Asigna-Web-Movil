@@ -171,7 +171,7 @@ class Crearreserva : Fragment() {
 
         // Configurar el Spinner
         val spinner: Spinner = view.findViewById(R.id.SpinnerNombreEspacio)
-        val opciones = arrayOf("Seleccionar...", "Lector", "Biblioteca", "Administrador")
+        val opciones = arrayOf("cancha", "gimnasio", "auditorio","biblioteca")
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, opciones)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
