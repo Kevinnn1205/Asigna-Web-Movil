@@ -11,8 +11,8 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView3"
         android:name="com.example.appmovilasignaweb.crear_cuentaa"
-        android:layout_width="413dp"
-        android:layout_height="727dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

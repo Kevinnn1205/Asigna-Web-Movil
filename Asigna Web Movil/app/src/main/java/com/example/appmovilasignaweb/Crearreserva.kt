@@ -16,7 +16,7 @@ import android.widget.Toast
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import com.example.bibliomayaya.config.config
+import com.example.appmovilasignaweb.config.config
 import org.json.JSONObject
 import java.lang.Exception
 import java.text.SimpleDateFormat
@@ -166,7 +166,7 @@ class Crearreserva : Fragment() {
         btnGuardar = view.findViewById(R.id.btnGuardar)
 
         // Nuevas referencias para los campos de hora
-        txtHora_entrada = view.findViewById(R.id.txtHora_entrada)
+        txtHora_entrada = view.findViewById(R.id.txtRolUsuario)
         txtHora_salida = view.findViewById(R.id.txtHora_salida)
 
         // Configurar el Spinner

@@ -124,7 +124,7 @@
         app:layout_constraintVertical_bias="0.538" />
 
     <EditText
-        android:id="@+id/txtHora_entrada"
+        android:id="@+id/txtRolUsuario"
         android:layout_width="382dp"
         android:layout_height="51dp"
         android:background="@drawable/rounded_edit_text"
@@ -153,7 +153,7 @@
         app:layout_constraintVertical_bias="0.662" />
 
     <EditText
-        android:id="@+id/txtCorreo"
+        android:id="@+id/txtusername"
         android:layout_width="382dp"
         android:layout_height="51dp"
         android:background="@drawable/rounded_edit_text"
