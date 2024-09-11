@@ -36,19 +36,24 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.167" />
 
-    <EditText
-        android:id="@+id/txtTipoDocumento"
+
+    <Spinner
+        android:id="@+id/SpinnerTipoDocumento"
         android:layout_width="382dp"
         android:layout_height="51dp"
+        android:animationCache="true"
         android:background="@drawable/rounded_edit_text"
-        android:ems="10"
-        android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:outlineAmbientShadowColor="#ffffff"
+        android:outlineSpotShadowColor="#ffffff"
+        android:spinnerMode="dialog"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/btnGuardar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.551"
+        app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.223" />
+        app:layout_constraintVertical_bias="0.228" />
 
     <TextView
         android:id="@+id/textView4"
@@ -72,6 +77,8 @@
         android:background="@drawable/rounded_edit_text"
         android:ems="10"
         android:inputType="textEmailAddress"
+        android:textColor="@color/white"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.551"
@@ -101,6 +108,8 @@
         android:background="@drawable/rounded_edit_text"
         android:ems="10"
         android:inputType="textEmailAddress"
+        android:textColor="@color/white"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.551"
@@ -123,19 +132,23 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.538" />
 
-    <EditText
-        android:id="@+id/txtRolUsuario"
+    <Spinner
+        android:id="@+id/SpinnerRolUsuario"
         android:layout_width="382dp"
         android:layout_height="51dp"
+        android:animationCache="true"
         android:background="@drawable/rounded_edit_text"
-        android:ems="10"
-        android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:outlineAmbientShadowColor="#ffffff"
+        android:outlineSpotShadowColor="#ffffff"
+        android:spinnerMode="dialog"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/btnGuardar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.551"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.595" />
+        app:layout_constraintVertical_bias="0.609" />
 
     <TextView
         android:id="@+id/textView7"
@@ -159,6 +172,8 @@
         android:background="@drawable/rounded_edit_text"
         android:ems="10"
         android:inputType="textEmailAddress"
+        android:textColor="@color/white"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.551"
@@ -188,6 +203,8 @@
         android:background="@drawable/rounded_edit_text"
         android:ems="10"
         android:inputType="textEmailAddress"
+        android:textColor="@color/white"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.551"

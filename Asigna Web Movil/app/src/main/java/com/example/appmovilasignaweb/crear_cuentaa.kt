@@ -5,8 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Spinner
 import android.widget.Toast
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
@@ -122,10 +124,8 @@ class crear_cuentaa : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_crear_cuentaa, container, false)
-        txtTipoDocumento = view.findViewById(R.id.txtTipoDocumento)
         txtNumeroDocumento = view.findViewById(R.id.txtNumeroDocumento)
         txtNombreCompleto = view.findViewById(R.id.txtNombreCompleto)
-        txtRolUsuario = view.findViewById(R.id.txtRolUsuario)
         txtusername = view.findViewById(R.id.txtusername)
         txtTelefono = view.findViewById(R.id.txtTelefono)
         btnGuardar = view.findViewById(R.id.btnGuardar)
@@ -134,8 +134,23 @@ class crear_cuentaa : Fragment() {
             guardarUsuario()
         }
 
+        // Configurar el Spinner
+        val spinner: Spinner = view.findViewById(R.id.SpinnerTipoDocumento)
+        val opciones = arrayOf("Cedula", "Tarjeta de identidad", "cedula de extranjeria")
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, opciones)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = adapter
+
+        // Configurar el Spinner
+        val spinner2: Spinner = view.findViewById(R.id.SpinnerRolUsuario)
+        val opciones2 = arrayOf("Usuario", "Administrador")
+        val adapter2 = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, opciones2)
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner2.adapter = adapter2
+
         return view
     }
+
 
     companion object {
         @JvmStatic
