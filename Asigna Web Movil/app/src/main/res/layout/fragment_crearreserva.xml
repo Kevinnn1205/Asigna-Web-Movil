@@ -46,6 +46,8 @@
         android:background="@drawable/rounded_edit_text"
         android:ems="10"
         android:inputType="textEmailAddress"
+        android:textColor="@color/white"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.551"
@@ -159,7 +161,7 @@
         app:layout_constraintVertical_bias="0.675" />
 
     <EditText
-        android:id="@+id/txtRolUsuario"
+        android:id="@+id/txtHora_entrada"
         android:layout_width="382dp"
         android:layout_height="51dp"
         android:background="@drawable/rounded_edit_text"
@@ -231,8 +233,8 @@
 
     <ImageView
         android:id="@+id/btnCalendario"
-        android:layout_width="51dp"
-        android:layout_height="46dp"
+        android:layout_width="45dp"
+        android:layout_height="41dp"
         android:src="@drawable/icono_calendario"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -243,8 +245,8 @@
 
     <ImageView
         android:id="@+id/btnCalendario2"
-        android:layout_width="53dp"
-        android:layout_height="47dp"
+        android:layout_width="48dp"
+        android:layout_height="39dp"
         android:src="@drawable/icono_calendario"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -255,20 +257,20 @@
 
     <ImageView
         android:id="@+id/hora_entrada"
-        android:layout_width="51dp"
-        android:layout_height="45dp"
+        android:layout_width="45dp"
+        android:layout_height="36dp"
         android:src="@mipmap/timealarmr"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/txtFecha_entrada"
-        app:layout_constraintHorizontal_bias="0.953"
+        app:layout_constraintHorizontal_bias="0.96"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.751" />
+        app:layout_constraintVertical_bias="0.745" />
 
     <ImageView
         android:id="@+id/hora_salida"
-        android:layout_width="51dp"
-        android:layout_height="45dp"
+        android:layout_width="43dp"
+        android:layout_height="34dp"
         android:src="@mipmap/timealarmr"
         app:layout_constraintBottom_toBottomOf="@+id/btnGuardar"
         app:layout_constraintEnd_toEndOf="parent"
