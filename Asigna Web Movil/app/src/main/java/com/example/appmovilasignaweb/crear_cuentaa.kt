@@ -9,7 +9,8 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
-import android.widget.Toast
+import android.graphics.drawable.Drawable
+import androidx.appcompat.app.AlertDialog
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
@@ -18,7 +19,10 @@ import org.json.JSONObject
 import java.lang.Exception
 import java.util.Random
 import android.text.InputFilter
+import android.text.InputType
 import android.text.Spanned
+import android.util.Patterns
+import android.view.KeyEvent
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -39,6 +43,17 @@ class crear_cuentaa : Fragment() {
 
     private var id: String = ""
 
+    // Función para mostrar una alerta con un ícono personalizado
+    private fun mostrarAlertaConIcono(titulo: String, mensaje: String, icono: Drawable) {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle(titulo)
+        builder.setMessage(mensaje)
+        builder.setIcon(icono)  // Asigna el ícono de error
+        builder.setPositiveButton("OK", null)
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
+    }
+
     // Función para guardar usuario
     fun guardarUsuario() {
         try {
@@ -48,7 +63,7 @@ class crear_cuentaa : Fragment() {
             }
 
             if (id == "") {
-                var parametros = JSONObject()
+                val parametros = JSONObject()
                 parametros.put("tipo_documento", spinnerTipoDocumento.selectedItem.toString()) // Obtiene el valor del Spinner
                 parametros.put("numero_documento", txtNumeroDocumento.text.toString())
                 parametros.put("nombre_completo", txtNombreCompleto.text.toString())
@@ -57,38 +72,30 @@ class crear_cuentaa : Fragment() {
                 parametros.put("username", txtusername.text.toString())
 
                 // Generar el código aleatorio y agregarlo a los parámetros
-                var codigoGenerado = codigoAleatorio()
+                val codigoGenerado = codigoAleatorio()
                 parametros.put("codigo", codigoGenerado) // Agregar el código aleatorio
 
-                var request = JsonObjectRequest(
+                val request = JsonObjectRequest(
                     Request.Method.POST,
                     config.urluserRegistro,
                     parametros,
 
                     { response ->
-                        Toast.makeText(
-                            context,
-                            "Se guardó correctamente",
-                            Toast.LENGTH_LONG
-                        ).show()
+                        mostrarAlertaConIcono("Éxito", "Se guardó correctamente", resources.getDrawable(android.R.drawable.checkbox_on_background, null))
                     },
                     { error ->
-                        Toast.makeText(
-                            context,
-                            "Se generó un error",
-                            Toast.LENGTH_LONG
-                        ).show()
+                        mostrarAlertaConIcono("Error", "Se generó un error al guardar el usuario", resources.getDrawable(android.R.drawable.ic_dialog_alert, null))
                     }
                 )
 
-                var queue = Volley.newRequestQueue(context)
+                val queue = Volley.newRequestQueue(context)
                 queue.add(request)
             } else {
                 // Código para editar el usuario si es necesario
             }
 
         } catch (error: Exception) {
-            Toast.makeText(context, "Error: ${error.message}", Toast.LENGTH_LONG).show()
+            mostrarAlertaConIcono("Error", "Error: ${error.message}", resources.getDrawable(android.R.drawable.ic_dialog_alert, null))
         }
     }
 
@@ -118,25 +125,32 @@ class crear_cuentaa : Fragment() {
         // Validar que los campos no estén vacíos
         if (txtNumeroDocumento.text.isEmpty() || txtNombreCompleto.text.isEmpty() ||
             txtTelefono.text.isEmpty() || txtusername.text.isEmpty()) {
-            Toast.makeText(context, "Todos los campos deben estar completos", Toast.LENGTH_LONG).show()
+            txtNumeroDocumento.error = "Todos los campos deben estar llenos"
             return false
         }
 
         // Validación de número de documento (solo números y hasta 20 caracteres)
         if (!txtNumeroDocumento.text.toString().matches(Regex("\\d{1,20}"))) {
-            Toast.makeText(context, "El número de documento debe tener solo números y máximo 20 caracteres", Toast.LENGTH_LONG).show()
+            txtNumeroDocumento.error = "El número de documento debe tener solo números y máximo 20 caracteres"
             return false
         }
 
-        // Validación de nombre completo (solo letras)
-        if (!txtNombreCompleto.text.toString().matches(Regex("^[a-zA-Z\\s]+$"))) {
-            Toast.makeText(context, "El nombre completo debe contener solo letras", Toast.LENGTH_LONG).show()
+        // Validación de nombre completo (solo letras y hasta 3 espacios permitidos)
+        if (!txtNombreCompleto.text.toString().matches(Regex("^[a-zA-Z]+( [a-zA-Z]+){0,3}$"))) {
+            txtNombreCompleto.error = "El nombre completo debe contener solo letras y hasta 3 espacios"
             return false
         }
 
         // Validación de teléfono (solo números y 10 dígitos)
         if (!txtTelefono.text.toString().matches(Regex("\\d{10}"))) {
-            Toast.makeText(context, "El teléfono debe tener solo 10 números", Toast.LENGTH_LONG).show()
+            txtTelefono.error = "El número de teléfono debe tener solo 10 dígitos"
+            return false
+        }
+
+        // Validación de correo electrónico
+        val email = txtusername.text.toString()
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            txtusername.error = "El correo electrónico no es válido"
             return false
         }
 
@@ -145,8 +159,55 @@ class crear_cuentaa : Fragment() {
 
     // Función para limitar el número de caracteres en el campo de número de documento
     private fun setMaxLength(editText: EditText, length: Int) {
-        val filterArray = arrayOf<InputFilter>(InputFilter.LengthFilter(length))
+        val filterArray = arrayOf(InputFilter.LengthFilter(length))
         editText.filters = filterArray
+    }
+
+    // Función para limitar la entrada de espacios en el campo de nombre completo
+    private fun setSpaceLimitFilter(editText: EditText, maxSpaces: Int) {
+        editText.filters = arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+            val spaceCount = (dest.substring(0, dstart) + source.toString() + dest.substring(dend)).count { it == ' ' }
+            if (spaceCount <= maxSpaces) null else ""
+        })
+    }
+
+    // Configura el enfoque automático entre los campos
+    private fun setupEditTextListeners() {
+        txtNumeroDocumento.setOnKeyListener { _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
+                txtNombreCompleto.requestFocus()
+                true
+            } else {
+                false
+            }
+        }
+
+        txtNombreCompleto.setOnKeyListener { _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
+                txtTelefono.requestFocus()
+                true
+            } else {
+                false
+            }
+        }
+
+        txtTelefono.setOnKeyListener { _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
+                txtusername.requestFocus()
+                true
+            } else {
+                false
+            }
+        }
+
+        txtusername.setOnKeyListener { _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
+                btnGuardar.requestFocus()
+                true
+            } else {
+                false
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -156,7 +217,6 @@ class crear_cuentaa : Fragment() {
             param2 = it.getString(ARG_PARAM2)
         }
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -177,13 +237,17 @@ class crear_cuentaa : Fragment() {
 
         // Aplicar validaciones de formato
         setMaxLength(txtNumeroDocumento, 20)  // Limitar a 20 caracteres
+        setSpaceLimitFilter(txtNombreCompleto, 3)  // Limitar a 3 espacios
+
+        // Configurar los listeners de los EditTexts
+        setupEditTextListeners()
 
         btnGuardar.setOnClickListener {
             guardarUsuario()
         }
 
         // Configurar el Spinner para Tipo de Documento
-        val opciones = arrayOf("Cedula", "Tarjeta de identidad", "cedula de extranjeria")
+        val opciones = arrayOf("Cédula de ciudadanía", "Tarjeta de identidad", "Cédula de extranjería")
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, opciones)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerTipoDocumento.adapter = adapter
@@ -193,7 +257,6 @@ class crear_cuentaa : Fragment() {
         val adapter2 = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, opciones2)
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerRolUsuario.adapter = adapter2
-
 
         return view
     }
