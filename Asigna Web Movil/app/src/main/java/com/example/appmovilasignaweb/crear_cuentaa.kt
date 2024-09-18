@@ -23,6 +23,7 @@ import android.text.InputType
 import android.text.Spanned
 import android.util.Patterns
 import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -163,18 +164,15 @@ class crear_cuentaa : Fragment() {
         editText.filters = filterArray
     }
 
-    // Función para limitar la entrada de espacios en el campo de nombre completo
-    private fun setSpaceLimitFilter(editText: EditText, maxSpaces: Int) {
-        editText.filters = arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
-            val spaceCount = (dest.substring(0, dstart) + source.toString() + dest.substring(dend)).count { it == ' ' }
-            if (spaceCount <= maxSpaces) null else ""
-        })
-    }
+    // Configuración de imeOptions y listeners para el teclado
+    private fun setupImeOptions() {
+        txtNumeroDocumento.imeOptions = EditorInfo.IME_ACTION_NEXT
+        txtNombreCompleto.imeOptions = EditorInfo.IME_ACTION_NEXT
+        txtTelefono.imeOptions = EditorInfo.IME_ACTION_NEXT
+        txtusername.imeOptions = EditorInfo.IME_ACTION_DONE
 
-    // Configura el enfoque automático entre los campos
-    private fun setupEditTextListeners() {
-        txtNumeroDocumento.setOnKeyListener { _, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
+        txtNumeroDocumento.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_NEXT) {
                 txtNombreCompleto.requestFocus()
                 true
             } else {
@@ -182,8 +180,8 @@ class crear_cuentaa : Fragment() {
             }
         }
 
-        txtNombreCompleto.setOnKeyListener { _, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
+        txtNombreCompleto.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_NEXT) {
                 txtTelefono.requestFocus()
                 true
             } else {
@@ -191,8 +189,8 @@ class crear_cuentaa : Fragment() {
             }
         }
 
-        txtTelefono.setOnKeyListener { _, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
+        txtTelefono.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_NEXT) {
                 txtusername.requestFocus()
                 true
             } else {
@@ -200,9 +198,9 @@ class crear_cuentaa : Fragment() {
             }
         }
 
-        txtusername.setOnKeyListener { _, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
-                btnGuardar.requestFocus()
+        txtusername.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                guardarUsuario()
                 true
             } else {
                 false
@@ -237,10 +235,9 @@ class crear_cuentaa : Fragment() {
 
         // Aplicar validaciones de formato
         setMaxLength(txtNumeroDocumento, 20)  // Limitar a 20 caracteres
-        setSpaceLimitFilter(txtNombreCompleto, 3)  // Limitar a 3 espacios
 
-        // Configurar los listeners de los EditTexts
-        setupEditTextListeners()
+        // Configurar los imeOptions y listeners
+        setupImeOptions()
 
         btnGuardar.setOnClickListener {
             guardarUsuario()
@@ -253,10 +250,10 @@ class crear_cuentaa : Fragment() {
         spinnerTipoDocumento.adapter = adapter
 
         // Configurar el Spinner para Rol de Usuario
-        val opciones2 = arrayOf("Usuario", "Administrador")
-        val adapter2 = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, opciones2)
-        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinnerRolUsuario.adapter = adapter2
+        val opcionesRol = arrayOf("Estudiante", "Profesor", "Administrador")
+        val adapterRol = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, opcionesRol)
+        adapterRol.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerRolUsuario.adapter = adapterRol
 
         return view
     }

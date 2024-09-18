@@ -9,5 +9,7 @@ class config {
         val urlBase="http://192.168.137.1:8080/api/v1/"
         val urluserRegistro=urlBase+"user/"
         val urlcrearReserva=urlBase+"reserva/"
+
+        val urllogin= urlBase+"/public/user/"
     }
 }

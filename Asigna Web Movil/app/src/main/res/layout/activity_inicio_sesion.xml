@@ -37,12 +37,14 @@
             app:layout_constraintVertical_bias="0.042" />
 
         <EditText
-            android:id="@+id/txtTipoDocumento"
+            android:id="@+id/txtCorreoelectronico"
             android:layout_width="382dp"
             android:layout_height="51dp"
             android:background="@drawable/rounded_edit_text"
             android:ems="10"
             android:inputType="textEmailAddress"
+            android:textColor="@color/white"
+            android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.533"
@@ -81,12 +83,14 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/editTextTextPassword"
+            android:id="@+id/txtContraseña"
             android:layout_width="382dp"
             android:layout_height="51dp"
             android:background="@drawable/rounded_edit_text"
             android:ems="10"
             android:inputType="textPassword"
+            android:textColor="@color/white"
+            android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.571"
