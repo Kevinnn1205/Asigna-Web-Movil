@@ -28,4 +28,8 @@ class MainActivity : AppCompatActivity() {
         var intent= Intent(application,crear_cuenta::class.java)
         startActivity(intent)
     }
+    fun irespacios(view: View){
+        var intent= Intent(application,espacios::class.java)
+        startActivity(intent)
+    }
 }

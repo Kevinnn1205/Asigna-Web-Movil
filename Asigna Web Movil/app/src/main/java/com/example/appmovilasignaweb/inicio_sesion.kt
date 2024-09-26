@@ -1,6 +1,7 @@
 package com.example.appmovilasignaweb
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -28,6 +29,7 @@ class inicio_sesion : AppCompatActivity() {
     private lateinit var usernameEditText: EditText
     private lateinit var passwordEditText: EditText
     private lateinit var loginButton: Button
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +44,8 @@ class inicio_sesion : AppCompatActivity() {
         // Inicializar Volley RequestQueue
         requestQueue = Volley.newRequestQueue(this)
 
+        sharedPreferences = getSharedPreferences("MiAppPreferences", MODE_PRIVATE)
+
         // Inicializar EditTexts y Button
         usernameEditText = findViewById(R.id.txtCorreoelectronico)
         passwordEditText = findViewById(R.id.txtContraseña)
@@ -50,7 +54,6 @@ class inicio_sesion : AppCompatActivity() {
         // Configurar el listener del botón de inicio de sesión
         loginButton.setOnClickListener {
             login()
-
         }
     }
 
@@ -74,10 +77,15 @@ class inicio_sesion : AppCompatActivity() {
             Request.Method.POST, url, jsonBody,
             Response.Listener { response ->
                 try {
-                    val token = response.getString("token") // Ajusta según la respuesta de tu API
+                    val token = response.getString("token")
                     Toast.makeText(this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
-                    // Guardar el token o proceder con el inicio de sesión
-                    // Ejemplo: redirigir a otra actividad
+
+                    // Guardar el token en SharedPreferences
+                    val editor = sharedPreferences.edit()
+                    editor.putString("TOKEN", token)
+                    editor.apply()
+
+                    // Redirigir a otra actividad
                     val intent = Intent(this, espacios::class.java)
                     startActivity(intent)
                 } catch (e: JSONException) {
@@ -94,6 +102,7 @@ class inicio_sesion : AppCompatActivity() {
 
         requestQueue.add(jsonObjectRequest)
     }
+
 
 
     fun volver(view: View) {

@@ -34,9 +34,7 @@ class crear_cuentaa : Fragment() {
 
     lateinit var txtNumeroDocumento: EditText
     lateinit var txtNombreCompleto: EditText
-    lateinit var txtTelefono: EditText
     lateinit var txtusername: EditText
-
     lateinit var spinnerTipoDocumento: Spinner
     lateinit var spinnerRolUsuario: Spinner
 
@@ -69,16 +67,15 @@ class crear_cuentaa : Fragment() {
                 parametros.put("numero_documento", txtNumeroDocumento.text.toString())
                 parametros.put("nombre_completo", txtNombreCompleto.text.toString())
                 parametros.put("rol", spinnerRolUsuario.selectedItem.toString()) // Obtiene el valor del Spinner
-                parametros.put("telefono", txtTelefono.text.toString())
                 parametros.put("username", txtusername.text.toString())
+                parametros.put("password", "")
 
-                // Generar el código aleatorio y agregarlo a los parámetros
-                val codigoGenerado = codigoAleatorio()
-                parametros.put("codigo", codigoGenerado) // Agregar el código aleatorio
+
+
 
                 val request = JsonObjectRequest(
                     Request.Method.POST,
-                    config.urluserRegistro,
+                    config.urluserRegistro + "register/",
                     parametros,
 
                     { response ->
@@ -100,32 +97,13 @@ class crear_cuentaa : Fragment() {
         }
     }
 
-    // Función para generar un código aleatorio
-    private fun codigoAleatorio(): String {
-        val longitud = 10
-        val banco = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@$%#"
-        val cadena = StringBuilder()
 
-        for (x in 0 until longitud) {
-            val indiceAleatorio = numeroAleatorioEnRango(0, banco.length - 1)
-            val caracterAleatorio = banco[indiceAleatorio]
-            cadena.append(caracterAleatorio)
-        }
-
-        return cadena.toString()
-    }
-
-    // Función auxiliar para generar un número aleatorio en un rango
-    private fun numeroAleatorioEnRango(min: Int, max: Int): Int {
-        val random = Random()
-        return random.nextInt((max - min) + 1) + min
-    }
 
     // Validación de campos vacíos y formatos
     private fun validarCampos(): Boolean {
         // Validar que los campos no estén vacíos
-        if (txtNumeroDocumento.text.isEmpty() || txtNombreCompleto.text.isEmpty() ||
-            txtTelefono.text.isEmpty() || txtusername.text.isEmpty()) {
+        if (txtNumeroDocumento.text.isEmpty() || txtNombreCompleto.text.isEmpty()
+            || txtusername.text.isEmpty()) {
             txtNumeroDocumento.error = "Todos los campos deben estar llenos"
             return false
         }
@@ -142,11 +120,7 @@ class crear_cuentaa : Fragment() {
             return false
         }
 
-        // Validación de teléfono (solo números y 10 dígitos)
-        if (!txtTelefono.text.toString().matches(Regex("\\d{10}"))) {
-            txtTelefono.error = "El número de teléfono debe tener solo 10 dígitos"
-            return false
-        }
+
 
         // Validación de correo electrónico
         val email = txtusername.text.toString()
@@ -168,7 +142,6 @@ class crear_cuentaa : Fragment() {
     private fun setupImeOptions() {
         txtNumeroDocumento.imeOptions = EditorInfo.IME_ACTION_NEXT
         txtNombreCompleto.imeOptions = EditorInfo.IME_ACTION_NEXT
-        txtTelefono.imeOptions = EditorInfo.IME_ACTION_NEXT
         txtusername.imeOptions = EditorInfo.IME_ACTION_DONE
 
         txtNumeroDocumento.setOnEditorActionListener { _, actionId, _ ->
@@ -182,21 +155,12 @@ class crear_cuentaa : Fragment() {
 
         txtNombreCompleto.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_NEXT) {
-                txtTelefono.requestFocus()
                 true
             } else {
                 false
             }
         }
 
-        txtTelefono.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_NEXT) {
-                txtusername.requestFocus()
-                true
-            } else {
-                false
-            }
-        }
 
         txtusername.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -226,7 +190,6 @@ class crear_cuentaa : Fragment() {
         txtNumeroDocumento = view.findViewById(R.id.txtNumeroDocumento)
         txtNombreCompleto = view.findViewById(R.id.txtNombreCompleto)
         txtusername = view.findViewById(R.id.txtusername)
-        txtTelefono = view.findViewById(R.id.txtTelefono)
         btnGuardar = view.findViewById(R.id.btnGuardar)
 
         // Inicialización de los Spinners
@@ -250,7 +213,7 @@ class crear_cuentaa : Fragment() {
         spinnerTipoDocumento.adapter = adapter
 
         // Configurar el Spinner para Rol de Usuario
-        val opcionesRol = arrayOf("Estudiante", "Profesor", "Administrador")
+        val opcionesRol = arrayOf("Usuario","Administrador")
         val adapterRol = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, opcionesRol)
         adapterRol.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerRolUsuario.adapter = adapterRol

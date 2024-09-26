@@ -64,6 +64,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/candal"
+        android:onClick="ircerrarsesion"
         android:text="Cerrar sesión"
         android:textColor="@color/white"
         android:textSize="30sp"
@@ -97,5 +98,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.022"
-        app:srcCompat="@mipmap/flechaiz" />
+        app:srcCompat="@mipmap/flechaiz"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -234,8 +234,8 @@
 
     <ImageView
         android:id="@+id/btnCalendario"
-        android:layout_width="40dp"
-        android:layout_height="37dp"
+        android:layout_width="35dp"
+        android:layout_height="29dp"
         android:src="@drawable/icono_calendario"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -246,8 +246,8 @@
 
     <ImageView
         android:id="@+id/btnCalendario2"
-        android:layout_width="44dp"
-        android:layout_height="37dp"
+        android:layout_width="35dp"
+        android:layout_height="28dp"
         android:src="@drawable/icono_calendario"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

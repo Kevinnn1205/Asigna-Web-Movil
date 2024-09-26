@@ -64,23 +64,23 @@
         app:layout_constraintHorizontal_bias="0.082"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.297" />
+        app:layout_constraintVertical_bias="0.307" />
 
     <EditText
         android:id="@+id/txtNumeroDocumento"
         android:layout_width="382dp"
         android:layout_height="51dp"
         android:background="@drawable/rounded_edit_text"
-        android:textColor="@color/white"
         android:gravity="center"
         android:inputType="number"
         android:maxLength="20"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.551"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.345" />
+        app:layout_constraintVertical_bias="0.369" />
 
     <TextView
         android:id="@+id/textView5"
@@ -95,23 +95,23 @@
         app:layout_constraintHorizontal_bias="0.082"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.416" />
+        app:layout_constraintVertical_bias="0.447" />
 
     <EditText
         android:id="@+id/txtNombreCompleto"
         android:layout_width="382dp"
         android:layout_height="51dp"
         android:background="@drawable/rounded_edit_text"
-        android:textColor="@color/white"
         android:gravity="center"
         android:inputType="text"
         android:maxLength="50"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.551"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.469" />
+        app:layout_constraintVertical_bias="0.523" />
 
     <TextView
         android:id="@+id/textView6"
@@ -126,7 +126,7 @@
         app:layout_constraintHorizontal_bias="0.082"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.538" />
+        app:layout_constraintVertical_bias="0.604" />
 
     <Spinner
         android:id="@+id/SpinnerRolUsuario"
@@ -141,7 +141,7 @@
         app:layout_constraintHorizontal_bias="0.551"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.609" />
+        app:layout_constraintVertical_bias="0.703" />
 
     <TextView
         android:id="@+id/textView7"
@@ -156,52 +156,21 @@
         app:layout_constraintHorizontal_bias="0.082"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.662" />
+        app:layout_constraintVertical_bias="0.767" />
 
     <EditText
         android:id="@+id/txtusername"
         android:layout_width="382dp"
         android:layout_height="51dp"
         android:background="@drawable/rounded_edit_text"
-        android:textColor="@color/white"
         android:gravity="center"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.551"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.733" />
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="217dp"
-        android:layout_height="25dp"
-        android:fontFamily="@font/candal"
-        android:text="Telefono: "
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.082"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.788" />
-
-    <EditText
-        android:id="@+id/txtTelefono"
-        android:layout_width="382dp"
-        android:layout_height="51dp"
-        android:background="@drawable/rounded_edit_text"
-        android:textColor="@color/white"
-        android:gravity="center"
-        android:inputType="number"
-        android:maxLength="20"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.551"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.866" />
+        app:layout_constraintVertical_bias="0.852" />
 
     <Button
         android:id="@+id/btnGuardar"
