@@ -74,6 +74,9 @@
             android:background="@drawable/rounded_edit_text"
             android:ems="10"
             android:inputType="textPassword"
+            android:maxLength="20"
+            android:textColor="@color/white"
+            android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -82,17 +85,20 @@
 
         <EditText
             android:id="@+id/editTextTextPassword"
-            android:layout_width="373dp"
-            android:layout_height="37dp"
+            android:layout_width="375dp"
+            android:layout_height="36dp"
             android:background="@drawable/rounded_edit_text"
             android:ems="10"
             android:inputType="textPassword"
+            android:maxLength="20"
+            android:textColor="@color/white"
+            android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.432"
+            app:layout_constraintHorizontal_bias="0.457"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.415" />
+            app:layout_constraintVertical_bias="0.416" />
 
         <TextView
             android:id="@+id/textView5"
@@ -112,17 +118,20 @@
 
         <EditText
             android:id="@+id/editTextTextPassword2"
-            android:layout_width="380dp"
+            android:layout_width="375dp"
             android:layout_height="37dp"
             android:background="@drawable/rounded_edit_text"
             android:ems="10"
             android:inputType="textPassword"
+            android:maxLength="20"
+            android:textColor="@color/white"
+            android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.571"
+            app:layout_constraintHorizontal_bias="0.542"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.811" />
+            app:layout_constraintVertical_bias="0.81" />
 
         <Button
             android:id="@+id/btnGuardar"

@@ -6,7 +6,7 @@ data class userRegistro(
     var numero_documento:String,
     var nombre_completo:String,
     var telefono:String,
-    var correo: String,
+    var username: String,
     var rol: String
 )
 

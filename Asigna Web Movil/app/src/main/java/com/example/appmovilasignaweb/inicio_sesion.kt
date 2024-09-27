@@ -66,11 +66,11 @@ class inicio_sesion : AppCompatActivity() {
             return
         }
 
-        val url = urllogin + "login/"
+        val url = urllogin + "/login/"
 
         val jsonBody = JSONObject().apply {
-            put("correoElectronico", username)
-            put("contra", password)
+            put("username", username)
+            put("password", password)
         }
 
         val jsonObjectRequest = object : JsonObjectRequest(

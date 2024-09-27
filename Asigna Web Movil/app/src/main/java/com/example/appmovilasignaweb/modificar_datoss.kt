@@ -1,5 +1,6 @@
 package com.example.appmovilasignaweb
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
@@ -10,6 +11,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
+import com.example.appmovilasignaweb.config.config
+import com.example.appmovilasignaweb.models.userRegistro
+import com.google.gson.Gson
 
 class modificar_datoss : Fragment() {
 
@@ -19,10 +27,10 @@ class modificar_datoss : Fragment() {
     // Declaración de las vistas y Spinners
     private lateinit var txtNumeroDocumento: EditText
     private lateinit var txtNombre_completo: EditText
-    private lateinit var txtTelefono: EditText
     private lateinit var txtusername: EditText
     private lateinit var btnGuardar: Button
     private lateinit var spinnerTipoDocumento: Spinner
+    var id_user: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,12 +54,12 @@ class modificar_datoss : Fragment() {
         // Inicialización de las vistas
         txtNumeroDocumento = view.findViewById(R.id.txtNumeroDocumento)
         txtNombre_completo = view.findViewById(R.id.txtNombre_completo)
-        txtTelefono = view.findViewById(R.id.txtTelefono)
         txtusername = view.findViewById(R.id.txtusername)
         btnGuardar = view.findViewById(R.id.btnGuardar)
 
         // Inicialización de los Spinners
         spinnerTipoDocumento = view.findViewById(R.id.SpinnerTipoDocumento)
+        mostrarPerfil()
 
         // Configurar el Spinner para Tipo de Documento
         val opciones = arrayOf("Seleccionar", "Cédula de ciudadanía", "Tarjeta de identidad", "Cédula de extranjería")
@@ -78,25 +86,6 @@ class modificar_datoss : Fragment() {
             }
         })
 
-        // Limitar el número de caracteres del Teléfono y solo permitir números
-        txtTelefono.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
-            override fun afterTextChanged(s: Editable?) {
-                val texto = s.toString()
-                // Limitar a 10 caracteres y permitir solo números
-                if (texto.length > 10) {
-                    txtTelefono.setText(texto.substring(0, 10))
-                    txtTelefono.setSelection(10)
-                }
-                if (!TextUtils.isDigitsOnly(texto)) {
-                    txtTelefono.error = "Solo se permiten números"
-                }
-            }
-        })
-
         // Limitar el número de caracteres del Username (correo) y validar formato
         txtusername.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -119,6 +108,48 @@ class modificar_datoss : Fragment() {
         }
     }
 
+    fun mostrarPerfil(){
+        val sharedPreferences = requireActivity().getSharedPreferences("MiAppPreferences", Context.MODE_PRIVATE)
+        val token = sharedPreferences.getString("TOKEN", "")
+
+        val headers = HashMap<String, String>()
+        headers["Authorization"] = "Bearer $token"
+
+        val request = object : JsonObjectRequest(
+            Request.Method.GET,
+            config.urlProfile,
+            null,
+            Response.Listener { response ->
+                val gson = Gson()
+                val userRegistro: userRegistro = gson.fromJson(response.toString(), userRegistro::class.java)
+
+                // Buscar la posición del tipo de documento en el Spinner
+                val tipoDocumentoPosition = (spinnerTipoDocumento.adapter as ArrayAdapter<String>).getPosition(userRegistro.tipo_documento)
+                spinnerTipoDocumento.setSelection(tipoDocumentoPosition)
+
+                txtNumeroDocumento.setText(userRegistro.numero_documento)
+                txtNombre_completo.setText(userRegistro.nombre_completo)
+                txtusername.setText(userRegistro.username)
+                id_user = userRegistro.id_user
+
+            },
+            Response.ErrorListener { error ->
+                Toast.makeText(
+                    context,
+                    "Error al consultar",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        ) {
+            override fun getHeaders(): MutableMap<String, String> {
+                return headers
+            }
+        }
+
+        val queue = Volley.newRequestQueue(context)
+        queue.add(request)
+    }
+
     // Función para validar el formulario
     private fun validarFormulario(): Boolean {
         var esValido = true
@@ -136,16 +167,6 @@ class modificar_datoss : Fragment() {
             esValido = false
         } else if (nombreCompleto.split(" ").size < 2) {
             txtNombre_completo.error = "Debes ingresar al menos dos nombres"
-            esValido = false
-        }
-
-        // Validación del Teléfono (no vacío y numérico)
-        val telefono = txtTelefono.text.toString()
-        if (TextUtils.isEmpty(telefono)) {
-            txtTelefono.error = "El teléfono es obligatorio"
-            esValido = false
-        } else if (telefono.length < 10) {
-            txtTelefono.error = "El teléfono debe tener al menos 10 dígitos"
             esValido = false
         }
 
