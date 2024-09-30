@@ -13,12 +13,14 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.Toast
+import android.util.Log
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.example.appmovilasignaweb.config.config
 import org.json.JSONObject
 import java.lang.Exception
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -77,6 +79,7 @@ class Crearreserva : Fragment() {
                             "Se generó un error",
                             Toast.LENGTH_LONG
                         ).show()
+                        Log.e("Crearreserva", "Error en la solicitud: ${error.message}")
                     }
                 )
                 val queue = Volley.newRequestQueue(context)
@@ -85,25 +88,22 @@ class Crearreserva : Fragment() {
                 // Implementar lógica para edición si es necesario
             }
         } catch (error: Exception) {
-            // Manejo de errores
+            Log.e("Crearreserva", "Error al crear la reserva: ${error.message}")
+            error.printStackTrace()
         }
     }
 
     fun mostrarCalendario(text: EditText, esFechaEntrada: Boolean) {
-        // Obtener la fecha actual
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-        // Crear el DatePickerDialog calendario
         val datePickerDialog = DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDay ->
-            // Formatear la fecha seleccionada
             val selectedDate = Calendar.getInstance().apply {
                 set(selectedYear, selectedMonth, selectedDay)
             }
 
-            // Validar que la fecha seleccionada no sea anterior a la actual
             if (selectedDate.before(Calendar.getInstance())) {
                 Toast.makeText(requireContext(), "No puedes seleccionar una fecha anterior a la actual.", Toast.LENGTH_SHORT).show()
             } else {
@@ -113,38 +113,67 @@ class Crearreserva : Fragment() {
             }
         }, year, month, day)
 
-        // Establecer la fecha mínima en el DatePickerDialog para evitar seleccionar fechas pasadas
         datePickerDialog.datePicker.minDate = calendar.timeInMillis
-
-        // Mostrar el DatePickerDialog
         datePickerDialog.show()
     }
 
     fun mostrarHora(text: EditText, esHoraEntrada: Boolean) {
-        // Obtener la hora actual
-        val calendar = Calendar.getInstance()
-        val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
-        val currentMinute = calendar.get(Calendar.MINUTE)
+        try {
+            val calendar = Calendar.getInstance()
+            val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
+            val currentMinute = calendar.get(Calendar.MINUTE)
 
-        // Crear el TimePickerDialog
-        val timePickerDialog = TimePickerDialog(requireContext(), { _, selectedHour, selectedMinute ->
-            val selectedTime = Calendar.getInstance().apply {
-                set(Calendar.HOUR_OF_DAY, selectedHour)
-                set(Calendar.MINUTE, selectedMinute)
-            }
+            val timePickerDialog = TimePickerDialog(requireContext(), { _, selectedHour, selectedMinute ->
+                val selectedTime = Calendar.getInstance().apply {
+                    set(Calendar.HOUR_OF_DAY, selectedHour)
+                    set(Calendar.MINUTE, selectedMinute)
+                }
 
-            // Si es hora de entrada, validar que no sea anterior a la hora actual
-            if (esHoraEntrada && selectedTime.before(Calendar.getInstance())) {
-                Toast.makeText(requireContext(), "No puedes seleccionar una hora anterior a la actual.", Toast.LENGTH_SHORT).show()
-            } else {
-                // Formatear la hora seleccionada
-                val formattedTime = String.format(Locale.getDefault(), "%02d:%02d", selectedHour, selectedMinute)
-                text.setText(formattedTime)
-            }
-        }, currentHour, currentMinute, true)
+                if (esHoraEntrada) {
+                    // Validar que la hora de entrada no sea anterior a la actual
+                    if (selectedTime.before(Calendar.getInstance())) {
+                        Toast.makeText(requireContext(), "No puedes seleccionar una hora anterior a la actual.", Toast.LENGTH_SHORT).show()
+                    } else {
+                        // Formatear y establecer la hora de entrada
+                        val formattedTime = String.format(Locale.getDefault(), "%02d:%02d", selectedHour, selectedMinute)
+                        text.setText(formattedTime)
+                    }
+                } else {
+                    // Validar que la hora de salida no sea anterior a la hora de entrada
+                    val horaEntradaStr = txtHora_entrada.text.toString()
+                    if (horaEntradaStr.isEmpty()) {
+                        Toast.makeText(requireContext(), "Primero selecciona la hora de entrada.", Toast.LENGTH_SHORT).show()
+                        return@TimePickerDialog
+                    }
 
-        // Mostrar el TimePickerDialog
-        timePickerDialog.show()
+                    val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
+                    try {
+                        val horaEntrada = sdf.parse(horaEntradaStr)
+                        if (horaEntrada != null) {
+                            val horaSalida = sdf.parse(String.format(Locale.getDefault(), "%02d:%02d", selectedHour, selectedMinute))
+                            if (horaSalida != null && horaSalida.before(horaEntrada)) {
+                                Toast.makeText(requireContext(), "La hora de salida no puede ser anterior a la hora de entrada.", Toast.LENGTH_SHORT).show()
+                                return@TimePickerDialog
+                            }
+                        }
+                    } catch (e: ParseException) {
+                        Toast.makeText(requireContext(), "Error al procesar las horas.", Toast.LENGTH_SHORT).show()
+                        Log.e("Crearreserva", "Error al parsear las horas: ${e.message}")
+                        return@TimePickerDialog
+                    }
+
+                    // Formatear y establecer la hora de salida
+                    val formattedTime = String.format(Locale.getDefault(), "%02d:%02d", selectedHour, selectedMinute)
+                    text.setText(formattedTime)
+                }
+            }, currentHour, currentMinute, true)
+
+            timePickerDialog.show()
+
+        } catch (e: Exception) {
+            Log.e("Crearreserva", "Error en TimePickerDialog: ${e.message}")
+            e.printStackTrace()
+        }
     }
 
     override fun onCreateView(
@@ -156,8 +185,8 @@ class Crearreserva : Fragment() {
         // Obtener las referencias de los botones y EditText
         val btnCalendario = view.findViewById<ImageView>(R.id.btnCalendario)
         val btnCalendario2 = view.findViewById<ImageView>(R.id.btnCalendario2)
-        val txtFechaEntrada = view.findViewById<EditText>(R.id.txtFecha_entrada)
-        val txtFechaSalida = view.findViewById<EditText>(R.id.txtFecha_salida)
+        txtFecha_entrada = view.findViewById(R.id.txtFecha_entrada)
+        txtFecha_salida = view.findViewById(R.id.txtFecha_salida)
 
         btnGuardar = view.findViewById(R.id.btnGuardar)
 
@@ -174,20 +203,28 @@ class Crearreserva : Fragment() {
 
         // Asignar los listeners de clic a los botones
         btnCalendario.setOnClickListener {
-            mostrarCalendario(txtFechaEntrada, true)
+            mostrarCalendario(txtFecha_entrada, true)
         }
 
         btnCalendario2.setOnClickListener {
-            mostrarCalendario(txtFechaSalida, false)
+            mostrarCalendario(txtFecha_salida, false)
         }
 
         // Asignar los listeners de clic a los campos de hora
         txtHora_entrada.setOnClickListener {
-            mostrarHora(txtHora_entrada, true)
+            if (::txtHora_entrada.isInitialized) {
+                mostrarHora(txtHora_entrada, true)
+            } else {
+                Log.e("Crearreserva", "txtHora_entrada no está inicializado")
+            }
         }
 
         txtHora_salida.setOnClickListener {
-            mostrarHora(txtHora_salida, false)
+            if (::txtHora_salida.isInitialized) {
+                mostrarHora(txtHora_salida, false)
+            } else {
+                Log.e("Crearreserva", "txtHora_salida no está inicializado")
+            }
         }
 
         btnGuardar.setOnClickListener {

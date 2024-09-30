@@ -45,10 +45,6 @@ class espacios : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun volver(view: View) {
-        var intent = Intent(application, inicio_sesion::class.java)
-        startActivity(intent)
-    }
 
     fun irmodificardatos(view: View) {
         var intent = Intent(application, modificar_datos::class.java)
@@ -62,6 +58,10 @@ class espacios : AppCompatActivity() {
 
     fun irreserva(view: View) {
         var intent = Intent(application, Reserva::class.java)
+        startActivity(intent)
+    }
+    fun volver(view: View) {
+        var intent = Intent(application, inicio_sesion::class.java)
         startActivity(intent)
     }
 

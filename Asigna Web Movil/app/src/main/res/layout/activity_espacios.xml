@@ -174,20 +174,6 @@ y actividades emocionantes. "
         app:layout_constraintVertical_bias="0.978"
         app:srcCompat="@mipmap/padlockcandado" />
 
-    <ScrollView
-        android:layout_width="417dp"
-        android:layout_height="552dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
