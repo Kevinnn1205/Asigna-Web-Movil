@@ -16,6 +16,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".cambiarcontrasena"
+            android:exported="false" />
+        <activity
             android:name=".Contenedor_crear_reserva"
             android:exported="false" />
         <activity

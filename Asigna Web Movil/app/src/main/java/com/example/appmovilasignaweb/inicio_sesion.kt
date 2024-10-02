@@ -7,10 +7,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.ui.window.application
-import androidx.core.content.ContextCompat.startActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.android.volley.Request
@@ -18,8 +15,10 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.example.appmovilasignaweb.config.config.Companion.urlBase
+import com.example.appmovilasignaweb.config.config.Companion.urlCambiarContrasena
 import com.example.appmovilasignaweb.config.config.Companion.urllogin
-import com.example.appmovilasignaweb.config.config.Companion.urluserRegistro
+import com.example.appmovilasignaweb.config.config.Companion.urlverificarcontrasena
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -33,7 +32,6 @@ class inicio_sesion : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_inicio_sesion)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -41,9 +39,11 @@ class inicio_sesion : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
         // Inicializar Volley RequestQueue
         requestQueue = Volley.newRequestQueue(this)
 
+        // Inicializar SharedPreferences
         sharedPreferences = getSharedPreferences("MiAppPreferences", MODE_PRIVATE)
 
         // Inicializar EditTexts y Button
@@ -78,6 +78,8 @@ class inicio_sesion : AppCompatActivity() {
             Response.Listener { response ->
                 try {
                     val token = response.getString("token")
+                    //val mustChangePassword = response.getBoolean("mustChangePassword") // Campo que indica si debe cambiar la contraseña
+
                     Toast.makeText(this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
 
                     // Guardar el token en SharedPreferences
@@ -85,12 +87,12 @@ class inicio_sesion : AppCompatActivity() {
                     editor.putString("TOKEN", token)
                     editor.apply()
 
-                    // Redirigir a otra actividad
-                    val intent = Intent(this, espacios::class.java)
-                    startActivity(intent)
+                    // Verificar el estado de la contraseña
+                    verificarEstadoContrasena(token)
+
                 } catch (e: JSONException) {
                     e.printStackTrace()
-                    Toast.makeText(this, "Usuario no encontrado", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show()
                 }
             },
             Response.ErrorListener { error ->
@@ -103,20 +105,58 @@ class inicio_sesion : AppCompatActivity() {
         requestQueue.add(jsonObjectRequest)
     }
 
+    private fun verificarEstadoContrasena(token: String) {
+        val url = urlverificarcontrasena
 
+        val jsonObjectRequest = object : JsonObjectRequest(
+            Request.Method.GET, url, null,
+            Response.Listener { response ->
+                try {
+                    val verificarContrasena = response.getBoolean("verificar_contrasena")
+
+                    if (verificarContrasena) {
+                        // Si el usuario debe cambiar su contraseña, lo redirigimos a la pantalla de cambio de contraseña
+                        val intent = Intent(this, cambiarcontrasena::class.java)
+                        startActivity(intent)
+                    } else {
+                        // Si no debe cambiar la contraseña, lo llevamos a la pantalla principal
+                        val intent = Intent(this, espacios::class.java)
+                        startActivity(intent)
+                    }
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                    Toast.makeText(this, "Error al verificar el estado de la contraseña", Toast.LENGTH_SHORT).show()
+                }
+            },
+            Response.ErrorListener { error ->
+                // Manejar el error
+                error.printStackTrace()
+                Toast.makeText(this, "Error al verificar el estado de la contraseña", Toast.LENGTH_SHORT).show()
+            }
+        ) {
+            override fun getHeaders(): Map<String, String> {
+                val headers = HashMap<String, String>()
+                headers["Authorization"] = "Bearer $token" // Si estás usando JWT
+                return headers
+            }
+        }
+
+        requestQueue.add(jsonObjectRequest)
+    }
 
     fun volver(view: View) {
-        var intent = Intent(application, MainActivity::class.java)
+        val intent = Intent(application, MainActivity::class.java)
         startActivity(intent)
     }
 
     fun irrecuperarcontra(view: View) {
-        var intent = Intent(application, recuperar_contra::class.java)
+        val intent = Intent(application, recuperar_contra::class.java)
         startActivity(intent)
     }
 
-    fun irespacio(view: View) {
-        var intent = Intent(application, espacios::class.java)
+    fun ircambiarcontrasena(view: View) {
+        val intent = Intent(application, cambiarcontrasena::class.java)
         startActivity(intent)
     }
 }
