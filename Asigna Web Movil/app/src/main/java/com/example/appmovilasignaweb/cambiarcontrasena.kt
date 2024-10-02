@@ -2,6 +2,7 @@ package com.example.appmovilasignaweb
 
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -16,9 +17,14 @@ import org.json.JSONObject
 
 class cambiarcontrasena : AppCompatActivity() {
 
+    private lateinit var sharedPreferences: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cambiarcontrasena)
+
+        // Inicializar SharedPreferences
+        sharedPreferences = getSharedPreferences("MiAppPreferences", MODE_PRIVATE)
 
         val nuevaContrasenaInput = findViewById<EditText>(R.id.nuevaContrasena)
         val confirmarContrasenaInput = findViewById<EditText>(R.id.confirmarContrasena)
@@ -29,14 +35,14 @@ class cambiarcontrasena : AppCompatActivity() {
             val confirmarContrasena = confirmarContrasenaInput.text.toString()
 
             if (nuevaContrasena.isNotEmpty() && confirmarContrasena.isNotEmpty()) {
-                cambiarContrasena(nuevaContrasena, confirmarContrasena)
+                CambiarContrasena(nuevaContrasena, confirmarContrasena)
             } else {
                 Toast.makeText(this, "Por favor llena ambos campos", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    private fun cambiarContrasena(nuevaContrasena: String, confirmarContrasena: String) {
+    private fun CambiarContrasena(nuevaContrasena: String, confirmarContrasena: String) {
         // Usar la URL desde config
         val url = config.urlCambiarContrasena
 
@@ -56,6 +62,7 @@ class cambiarcontrasena : AppCompatActivity() {
                 Toast.makeText(this, "Error: ${error.message}", Toast.LENGTH_SHORT).show()
             }
         ) {
+
             // Aquí agregamos el token en la cabecera
             override fun getHeaders(): Map<String, String> {
                 val headers = HashMap<String, String>()
@@ -70,9 +77,8 @@ class cambiarcontrasena : AppCompatActivity() {
     }
 
     private fun obtenerToken(): String {
-        // Aquí debes implementar la lógica para obtener tu token de almacenamiento
-        // Puede ser desde SharedPreferences o cualquier otro método que estés utilizando
-        return "tu_token_aqui" // Cambia esto por tu lógica de obtención del token
+        // Obtener el token almacenado en SharedPreferences
+        return sharedPreferences.getString("TOKEN", "") ?: ""
     }
 
     private fun mostrarAlertaExito() {
