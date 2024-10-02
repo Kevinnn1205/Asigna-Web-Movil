@@ -7,11 +7,15 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.VolleyError
-import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import org.json.JSONObject
+import com.example.appmovilasignaweb.config.config // Importa la clase config
 
 class recuperar_contrasena : Fragment() {
 
@@ -30,7 +34,7 @@ class recuperar_contrasena : Fragment() {
         recoverPasswordButton.setOnClickListener {
             val email = emailInput.text.toString().trim()
             if (email.isNotEmpty()) {
-                enviarSolicitudRecuperacion(email)
+                RecuperarContrasena(email)
             } else {
                 Toast.makeText(activity, "Ingresa un correo válido", Toast.LENGTH_SHORT).show()
             }
@@ -39,25 +43,41 @@ class recuperar_contrasena : Fragment() {
         return view
     }
 
-    private fun enviarSolicitudRecuperacion(email: String) {
-        val url = "http://localhost:8080/api/v1/"
+    private fun RecuperarContrasena(email: String) {
+        // Usar la URL desde config
+        val url = config.urlRecuperarContrasena // Utilizamos la URL de config
 
-        val stringRequest = object : StringRequest(Method.POST, url,
-            Response.Listener<String> { response ->
-                Toast.makeText(activity, "Correo de recuperación enviado", Toast.LENGTH_SHORT).show()
+        val params = JSONObject()
+        params.put("username", email) // Cambiado a "username" para que coincida con el backend
+
+        val jsonObjectRequest = object : JsonObjectRequest(
+            Request.Method.POST,
+            url,
+            params,
+            Response.Listener { response ->
+                val message = response.optString("message", "Error inesperado.")
+                Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
             },
             Response.ErrorListener { error: VolleyError ->
-                Toast.makeText(activity, "Error al enviar el correo", Toast.LENGTH_SHORT).show()
-            }) {
-            override fun getParams(): Map<String, String> {
-                val params: MutableMap<String, String> = HashMap()
-                params["email"] = email
-                return params
+                Toast.makeText(activity, "Error al enviar el correo: ${error.message}", Toast.LENGTH_SHORT).show()
+            }
+        ) {
+            override fun getHeaders(): Map<String, String> {
+                val headers = HashMap<String, String>()
+                val token = obtenerToken() // Método para obtener el token almacenado
+                headers["Authorization"] = "Bearer $token"
+                return headers
             }
         }
 
         val queue = Volley.newRequestQueue(activity)
-        queue.add(stringRequest)
+        queue.add(jsonObjectRequest)
+    }
+
+    private fun obtenerToken(): String {
+        // Aquí debes implementar la lógica para obtener tu token de almacenamiento
+        val sharedPreferences = activity?.getSharedPreferences("MiAppPreferences", AppCompatActivity.MODE_PRIVATE)
+        return sharedPreferences?.getString("TOKEN", "") ?: "" // Retorna el token guardado
     }
 
     companion object {

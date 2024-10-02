@@ -13,5 +13,7 @@ class config {
         // Agrega la nueva URL para cambiar contraseña
         val urlCambiarContrasena = urlBase + "user/cambiar-contrasena"
         val urlverificarcontrasena = urlBase + "user/verificar-contrasena"
+
+        val urlRecuperarContrasena = urlBase + "user/recuperar-contrasena"
     }
 }
