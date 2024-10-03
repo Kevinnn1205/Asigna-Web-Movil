@@ -26,7 +26,7 @@
             android:layout_width="388dp"
             android:layout_height="106dp"
             android:fontFamily="@font/candal"
-            android:text="Cambia tu contraseña"
+            android:text="Modifica tu contraseña"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="34sp"

@@ -2,5 +2,7 @@
 <resources>
     <array name="preloaded_fonts" translatable="false">
         <item>@font/candal</item>
+        <item>@font/candal2</item>
+        <item>@font/letra</item>
     </array>
 </resources>
