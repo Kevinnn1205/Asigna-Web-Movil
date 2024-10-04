@@ -45,12 +45,6 @@ class espacios : AppCompatActivity() {
         startActivity(intent)
     }
 
-
-    fun irmodificardatos(view: View) {
-        var intent = Intent(application, modificar_datos::class.java)
-        startActivity(intent)
-    }
-
     fun irmiperfil(view: View) {
         var intent = Intent(application, miperfil::class.java)
         startActivity(intent)
