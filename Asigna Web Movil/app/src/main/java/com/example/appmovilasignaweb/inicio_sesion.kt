@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -80,15 +81,16 @@ class inicio_sesion : AppCompatActivity() {
                     val token = response.getString("token")
                     //val mustChangePassword = response.getBoolean("mustChangePassword") // Campo que indica si debe cambiar la contraseña
 
-                    Toast.makeText(this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
+                    // Mostrar alerta de inicio de sesión exitoso
+                    showAlert("Inicio de sesión exitoso", "Aceptar") {
+                        // Guardar el token en SharedPreferences
+                        val editor = sharedPreferences.edit()
+                        editor.putString("TOKEN", token)
+                        editor.apply()
 
-                    // Guardar el token en SharedPreferences
-                    val editor = sharedPreferences.edit()
-                    editor.putString("TOKEN", token)
-                    editor.apply()
-
-                    // Verificar el estado de la contraseña
-                    verificarEstadoContrasena(token)
+                        // Verificar el estado de la contraseña
+                        verificarEstadoContrasena(token)
+                    }
 
                 } catch (e: JSONException) {
                     e.printStackTrace()
@@ -96,9 +98,9 @@ class inicio_sesion : AppCompatActivity() {
                 }
             },
             Response.ErrorListener { error ->
-                // Manejar el error
+                // Manejar el error de usuario no encontrado
                 error.printStackTrace()
-                Toast.makeText(this, "Usuario no encontrado", Toast.LENGTH_SHORT).show()
+                showAlert("Usuario no encontrado", "Aceptar")
             }
         ) {}
 
@@ -143,6 +145,19 @@ class inicio_sesion : AppCompatActivity() {
         }
 
         requestQueue.add(jsonObjectRequest)
+    }
+
+    // Función para mostrar alerta
+    private fun showAlert(message: String, buttonText: String, onClickAction: (() -> Unit)? = null) {
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage(message)
+            .setCancelable(false)
+            .setPositiveButton(buttonText) { dialog, _ ->
+                dialog.dismiss()
+                onClickAction?.invoke()  // Ejecutar la acción adicional si está definida
+            }
+        val alert = builder.create()
+        alert.show()
     }
 
     fun volver(view: View) {
