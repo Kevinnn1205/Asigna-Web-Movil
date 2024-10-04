@@ -40,15 +40,6 @@ class espacios : AppCompatActivity() {
         transaction.addToBackStack(null) // Optional: allows the user to navigate back
         transaction.commit()
     }
-    fun ircambiarcontra(view: View) {
-        var intent = Intent(application, Cambiarcontra::class.java)
-        startActivity(intent)
-    }
-
-    fun irmiperfil(view: View) {
-        var intent = Intent(application, miperfil::class.java)
-        startActivity(intent)
-    }
 
     fun irreserva(view: View) {
         var intent = Intent(application, Reserva::class.java)
@@ -59,4 +50,18 @@ class espacios : AppCompatActivity() {
         startActivity(intent)
     }
 
+    fun irAgregarReserva(view: View) {
+        var intent = Intent(application, Crearreserva::class.java)
+        startActivity(intent)
+    }
+
+    fun irModuloInformacion(view: View) {
+        var intent = Intent(application, espacios::class.java)
+        startActivity(intent)
+    }
+
+    fun irmiperfil(view: View) {
+        var intent = Intent(application, miperfil::class.java)
+        startActivity(intent)
+    }
 }

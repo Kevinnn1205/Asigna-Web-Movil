@@ -137,43 +137,41 @@ y actividades emocionantes. "
         app:layout_constraintVertical_bias="1.0" />
 
     <ImageView
-        android:id="@+id/imageView13"
-        android:layout_width="51dp"
-        android:layout_height="42dp"
-        android:onClick="irmiperfil"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.919"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.982"
-        app:srcCompat="@mipmap/forum_userb" />
-
-    <ImageView
-        android:id="@+id/imageView14"
-        android:layout_width="49dp"
-        android:layout_height="39dp"
-        android:onClick="irmodificardatos"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.978"
-        app:srcCompat="@mipmap/pencil" />
-
-    <ImageView
-        android:id="@+id/imageView15"
-        android:layout_width="57dp"
-        android:layout_height="41dp"
-        android:onClick="ircambiarcontra"
+        android:id="@+id/imageView5"
+        android:layout_width="61dp"
+        android:layout_height="54dp"
+        android:onClick="irModuloInformacion"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.098"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.978"
-        app:srcCompat="@mipmap/padlockcandado" />
+        app:srcCompat="@mipmap/menu" />
 
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="61dp"
+        android:layout_height="54dp"
+        android:onClick="irAgregarReserva"
+        app:layout_constraintBottom_toBottomOf="@+id/fragmentContainerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.976"
+        app:srcCompat="@mipmap/agregar" />
 
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="61dp"
+        android:layout_height="54dp"
+        android:onClick="irmiperfil"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.917"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.977"
+        app:srcCompat="@mipmap/perfil" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
