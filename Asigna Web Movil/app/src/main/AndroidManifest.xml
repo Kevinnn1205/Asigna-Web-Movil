@@ -16,6 +16,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".miPerfilAdmin"
+            android:exported="false" />
+        <activity
+            android:name=".moduloInformacionAdmin"
+            android:exported="false" />
+        <activity
             android:name=".cambiarcontrasena"
             android:exported="false" />
         <activity

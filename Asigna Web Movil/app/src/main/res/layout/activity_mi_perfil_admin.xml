@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".miperfil"
+    tools:context=".miPerfilAdmin"
     android:background="#202C4A">
 
     <ImageView
@@ -33,31 +33,31 @@
 
     <TextView
         android:id="@+id/textView11"
-        android:layout_width="328dp"
-        android:layout_height="50dp"
+        android:layout_width="286dp"
+        android:layout_height="39dp"
         android:fontFamily="@font/candal"
         android:onClick="irdesactivarcuenta"
         android:text="Desactivar cuenta"
         android:textColor="@color/white"
-        android:textSize="30sp"
+        android:textSize="23sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.784"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.581" />
+        app:layout_constraintVertical_bias="0.89" />
 
     <ImageView
-        android:id="@+id/imageView17"
+        android:id="@+id/imageView14"
         android:layout_width="45dp"
         android:layout_height="44dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.076"
+        app:layout_constraintHorizontal_bias="0.073"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.576"
-        app:srcCompat="@mipmap/eyes" />
+        app:layout_constraintVertical_bias="0.889"
+        app:srcCompat="@mipmap/iconodesactivarcuenta" />
 
     <TextView
         android:id="@+id/textView12"
@@ -67,25 +67,25 @@
         android:onClick="ircerrarsesion"
         android:text="Cerrar sesión"
         android:textColor="@color/white"
-        android:textSize="30sp"
+        android:textSize="23sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.448"
+        app:layout_constraintHorizontal_bias="0.404"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.696" />
+        app:layout_constraintVertical_bias="0.772" />
 
     <ImageView
-        android:id="@+id/imageView18"
+        android:id="@+id/imageView15"
         android:layout_width="45dp"
-        android:layout_height="48dp"
+        android:layout_height="44dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.076"
+        app:layout_constraintHorizontal_bias="0.073"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.696"
-        app:srcCompat="@mipmap/forum_userb" />
+        app:layout_constraintVertical_bias="0.78"
+        app:srcCompat="@mipmap/iconocerrarsesion" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -100,4 +100,61 @@
         app:layout_constraintVertical_bias="0.022"
         app:srcCompat="@mipmap/flechadevolver"
         />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/candal"
+        android:onClick="irCambiarContrasena"
+        android:text="Cambiar contraseña"
+        android:textColor="@color/white"
+        android:textSize="23sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.718"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.667" />
+
+    <ImageView
+        android:id="@+id/imageView19"
+        android:layout_width="45dp"
+        android:layout_height="44dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.073"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.663"
+        app:srcCompat="@mipmap/iconocambiarcontrasena" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/candal"
+        android:onClick="irCrearCuenta"
+        android:text="Crear cuenta"
+        android:textColor="@color/white"
+        android:textSize="23sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.404"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.551" />
+
+    <ImageView
+        android:id="@+id/imageView20"
+        android:layout_width="45dp"
+        android:layout_height="44dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.073"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.557"
+        app:srcCompat="@mipmap/iconocrearcuenta" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
