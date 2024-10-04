@@ -33,7 +33,7 @@ class miPerfilAdmin : AppCompatActivity() {
     }
 
     fun irdesactivarcuenta(view: View) {
-        val intent = Intent(application, desactivar_cuenta::class.java)
+        val intent = Intent(application, desactivarCuentaAdmin::class.java)
         startActivity(intent)
     }
 
@@ -43,7 +43,7 @@ class miPerfilAdmin : AppCompatActivity() {
     }
 
     fun irCambiarContrasena(view: View) {
-        val intent = Intent(application, Cambiarcontra::class.java)
+        val intent = Intent(application, CambiarcontraAdmin::class.java)
         startActivity(intent)
     }
 

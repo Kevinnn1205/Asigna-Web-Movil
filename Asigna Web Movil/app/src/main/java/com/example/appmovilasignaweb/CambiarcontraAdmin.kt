@@ -3,7 +3,6 @@ package com.example.appmovilasignaweb
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Patterns
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
@@ -15,29 +14,26 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import org.json.JSONObject
-import com.example.appmovilasignaweb.config.config // Importa la clase config para la URL
 import com.example.appmovilasignaweb.config.config.Companion.urlCambiarcontra
+import org.json.JSONObject
 import java.util.regex.Pattern
 
-class Cambiarcontra : AppCompatActivity() {
+class CambiarcontraAdmin : AppCompatActivity() {
 
     private lateinit var editTextPasswordActual: EditText
     private lateinit var editTextNuevaPassword: EditText
     private lateinit var editTextConfirmarPassword: EditText
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_cambiarcontra)
-
-        // Configuración de los insets para la vista
+        setContentView(R.layout.activity_cambiarcontra_admin)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
         // Inicialización de los campos de contraseña
         editTextPasswordActual = findViewById(R.id.editTextTextPassword1)
         editTextNuevaPassword = findViewById(R.id.editTextTextPassword)
@@ -136,10 +132,9 @@ class Cambiarcontra : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("MiAppPreferences", MODE_PRIVATE)
         return sharedPreferences.getString("TOKEN", "") ?: "" // Retorna el token guardado
     }
-
     // Función para volver a la pantalla de espacios
     fun volver(view: View) {
-        val intent = Intent(this, miperfil::class.java)
+        val intent = Intent(this, miPerfilAdmin::class.java)
         startActivity(intent)
     }
-}
+    }

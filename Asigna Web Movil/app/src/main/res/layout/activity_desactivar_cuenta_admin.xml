@@ -5,9 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".desactivar_cuenta"
-    android:background="#EFFAFF">
-
+    tools:context=".desactivarCuentaAdmin">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="410dp"
@@ -96,5 +94,4 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.023"
         app:srcCompat="@mipmap/flechaiz" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
