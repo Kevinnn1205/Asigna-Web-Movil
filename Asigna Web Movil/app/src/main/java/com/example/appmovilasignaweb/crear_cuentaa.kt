@@ -29,20 +29,19 @@ class crear_cuentaa : Fragment() {
     private lateinit var btnGuardar: Button
     private var id: String = ""
 
-    // Función para mostrar una alerta con un ícono personalizado y redirigir después de la alerta
     private fun mostrarAlertaConRedireccion(titulo: String, mensaje: String, icono: Drawable) {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle(titulo)
         builder.setMessage(mensaje)
         builder.setIcon(icono)
         builder.setPositiveButton("OK") { dialog, which ->
-            // Redirigir al inicio de sesión después de cerrar la alerta
-            val intent = Intent(requireContext(), inicio_sesion::class.java)
-            startActivity(intent)
+            // Aquí se eliminó la redirección al inicio de sesión
+            dialog.dismiss() // Opcional: cerrar la alerta manualmente
         }
         val dialog: AlertDialog = builder.create()
         dialog.show()
     }
+
 
     // Función para mostrar una alerta con un ícono personalizado (sin redirección)
     private fun mostrarAlertaConIcono(titulo: String, mensaje: String, icono: Drawable) {

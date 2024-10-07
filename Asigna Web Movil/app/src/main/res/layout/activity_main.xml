@@ -37,22 +37,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.898" />
 
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="185dp"
-        android:layout_height="29dp"
-        android:fontFamily="@font/candal"
-        android:onClick="ircrearcuenta"
-        android:text="Crear cuenta"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.951" />
-
     <ImageView
         android:id="@+id/imageView4"
         android:layout_width="258dp"
