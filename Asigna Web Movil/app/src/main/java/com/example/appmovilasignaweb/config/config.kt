@@ -23,5 +23,9 @@ class config {
 
         val urlRol = urlBase + "user/rol"
 
+        // desactivar cuenta
+
+        val urlDesactivarCuenta = urlBase + "user/desactivar/"
+
     }
 }
