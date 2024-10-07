@@ -3,13 +3,19 @@ package com.example.appmovilasignaweb
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
+import com.example.appmovilasignaweb.config.config
+import org.json.JSONException
 
 class espacios : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,16 +27,39 @@ class espacios : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val button: Button = findViewById(R.id.btnGuardar) // Replace with the ID of your button
-        button.setOnClickListener {
-            irAlFragment()
-        }
+        consultarAPI()
     }
 
-    // Method to initiate a new Fragment
-    private fun irAlFragment(view: View? = null) {
-        val fragment = Crearreserva() // Replace with your Fragment
-        loadFragment(fragment)
+    // Método para consultar la API
+    private fun consultarAPI() {
+        // URL de tu API
+        val url = config.urlEspacios// Cambia esta URL por la de tu API
+
+        // Crea una cola de peticiones
+        val queue = Volley.newRequestQueue(this)
+
+        // Crea la petición GET
+        val jsonObjectRequest = JsonObjectRequest(
+            Request.Method.GET, url, null,
+            Response.Listener { response ->
+                try {
+                    // Maneja la respuesta aquí
+                    // Por ejemplo, puedes extraer datos del JSON
+                    // val espacios = response.getJSONArray("espacios")
+                    Toast.makeText(this, "Consulta exitosa!", Toast.LENGTH_SHORT).show()
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                    Toast.makeText(this, "Error en la respuesta", Toast.LENGTH_SHORT).show()
+                }
+            },
+            Response.ErrorListener { error ->
+                error.printStackTrace()
+                Toast.makeText(this, "Error en la solicitud", Toast.LENGTH_SHORT).show()
+            }
+        )
+
+        // Añade la petición a la cola
+        queue.add(jsonObjectRequest)
     }
 
     // Method to handle the Fragment transaction
