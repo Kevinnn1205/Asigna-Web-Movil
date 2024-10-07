@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@drawable/borderredon_text"
+        android:gravity="center"> <!-- Centra todo el contenido -->
+
+        <TextView
+            android:id="@+id/textViewNombreEspacio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/candal"
+            android:text="Nombre del espacio"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/imageViewEspacio"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@mipmap/auditorio" />
+
+        <TextView
+            android:id="@+id/textViewClasificacionEspacio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Clasificación del espacio"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/textViewCapacidadEspacio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Capacidad del espacio"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/textViewDescripcionEspacio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Descripción del espacio"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
