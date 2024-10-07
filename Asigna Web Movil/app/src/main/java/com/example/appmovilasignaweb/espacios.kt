@@ -51,7 +51,7 @@ class espacios : AppCompatActivity() {
     }
 
     fun irAgregarReserva(view: View) {
-        var intent = Intent(application, Crearreserva::class.java)
+        var intent = Intent(application, Contenedor_crear_reserva::class.java)
         startActivity(intent)
     }
 
