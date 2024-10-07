@@ -20,7 +20,7 @@ class moduloInformacionAdmin : AppCompatActivity() {
         }
     }
     fun irAgregarReserva(view: View) {
-        val intent = Intent(application, Crearreserva::class.java)
+        val intent = Intent(application, Contenedor_crear_reserva::class.java)
         startActivity(intent)
     }
 }
