@@ -18,10 +18,9 @@ class crear_cuenta : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
     }
     fun volver(view: View) {
-        var intent = Intent(application, miPerfilAdmin::class.java)
+        var intent = Intent(application, moduloInformacionAdmin::class.java)
         startActivity(intent)
     }
 }
