@@ -18,5 +18,10 @@ class config {
         //cambiar contraseña 2
 
         val urlCambiarcontra = urlBase + "user/cambiar-contrasena"
+
+        // verificar rol
+
+        val urlRol = urlBase + "user/rol"
+
     }
 }

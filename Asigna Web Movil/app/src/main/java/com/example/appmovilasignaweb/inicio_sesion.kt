@@ -16,8 +16,8 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.example.appmovilasignaweb.config.config
 import com.example.appmovilasignaweb.config.config.Companion.urlBase
-import com.example.appmovilasignaweb.config.config.Companion.urlCambiarContrasena
 import com.example.appmovilasignaweb.config.config.Companion.urllogin
 import com.example.appmovilasignaweb.config.config.Companion.urlverificarcontrasena
 import org.json.JSONException
@@ -79,7 +79,6 @@ class inicio_sesion : AppCompatActivity() {
             Response.Listener { response ->
                 try {
                     val token = response.getString("token")
-                    //val mustChangePassword = response.getBoolean("mustChangePassword") // Campo que indica si debe cambiar la contraseña
 
                     // Mostrar alerta de inicio de sesión exitoso
                     showAlert("Inicio de sesión exitoso", "Aceptar") {
@@ -121,9 +120,8 @@ class inicio_sesion : AppCompatActivity() {
                         val intent = Intent(this, cambiarcontrasena::class.java)
                         startActivity(intent)
                     } else {
-                        // Si no debe cambiar la contraseña, lo llevamos a la pantalla principal
-                        val intent = Intent(this, espacios::class.java)
-                        startActivity(intent)
+                        // Si no debe cambiar la contraseña, ahora verificamos el rol
+                        obtenerRol(token)
                     }
 
                 } catch (e: JSONException) {
@@ -140,6 +138,49 @@ class inicio_sesion : AppCompatActivity() {
             override fun getHeaders(): Map<String, String> {
                 val headers = HashMap<String, String>()
                 headers["Authorization"] = "Bearer $token" // Si estás usando JWT
+                return headers
+            }
+        }
+
+        requestQueue.add(jsonObjectRequest)
+    }
+
+    private fun obtenerRol(token: String) {
+        val url = config.urlRol
+
+        val jsonObjectRequest = object : JsonObjectRequest(
+            Request.Method.GET, url, null,
+            Response.Listener { response ->
+                try {
+                    val rol = response.getString("role")
+
+                    // Redirigir según el rol del usuario
+                    if (rol == "Administrador") {
+                        // Si el usuario es administrador
+                        val intent = Intent(this, moduloInformacionAdmin::class.java)
+                        startActivity(intent)
+                    } else if (rol == "Usuario") {
+                        // Si es un usuario normal
+                        val intent = Intent(this, espacios::class.java)
+                        startActivity(intent)
+                    } else {
+                        Toast.makeText(this, "Rol no reconocido", Toast.LENGTH_SHORT).show()
+                    }
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                    Toast.makeText(this, "Error al obtener el rol", Toast.LENGTH_SHORT).show()
+                }
+            },
+            Response.ErrorListener { error ->
+                // Manejar el error
+                error.printStackTrace()
+                Toast.makeText(this, "Error al obtener el rol", Toast.LENGTH_SHORT).show()
+            }
+        ) {
+            override fun getHeaders(): Map<String, String> {
+                val headers = HashMap<String, String>()
+                headers["Authorization"] = "Bearer $token"
                 return headers
             }
         }
