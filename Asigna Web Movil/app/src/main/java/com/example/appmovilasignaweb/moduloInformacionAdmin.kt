@@ -19,8 +19,8 @@ class moduloInformacionAdmin : AppCompatActivity() {
             insets
         }
     }
-    fun irAgregarReserva(view: View) {
-        val intent = Intent(application, Contenedor_crear_reserva::class.java)
+    fun irCrearCuentas(view: View) {
+        val intent = Intent(application, crear_cuenta::class.java)
         startActivity(intent)
     }
 }
