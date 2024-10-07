@@ -28,6 +28,6 @@ class config {
         val urlDesactivarCuenta = urlBase + "user/desactivar/"
 
         //Traer los espacios
-        val urlEspacios=urlBase+"/espacio"
+        val urlEspacios=urlBase+"espacio/"
     }
 }
