@@ -23,4 +23,9 @@ class moduloInformacionAdmin : AppCompatActivity() {
         val intent = Intent(application, crear_cuenta::class.java)
         startActivity(intent)
     }
+
+    fun irmiperfil(view: View) {
+        val intent = Intent(application, miPerfilAdmin::class.java)
+        startActivity(intent)
+    }
 }
