@@ -28,4 +28,9 @@ class moduloInformacionAdmin : AppCompatActivity() {
         val intent = Intent(application, miPerfilAdmin::class.java)
         startActivity(intent)
     }
+
+    fun irModuloInformacion(view: View) {
+        val intent = Intent(application, moduloInformacionAdmin::class.java)
+        startActivity(intent)
+    }
 }
