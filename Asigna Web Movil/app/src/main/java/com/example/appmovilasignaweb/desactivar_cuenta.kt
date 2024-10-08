@@ -6,87 +6,82 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
+import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.example.appmovilasignaweb.config.config
+import org.json.JSONException
+import org.json.JSONObject
 
 class desactivar_cuenta : AppCompatActivity() {
+
+    // Cola de solicitudes Volley
+    private val requestQueue by lazy { Volley.newRequestQueue(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_desactivar_cuenta)
 
-        // Almacenar la ID del usuario en SharedPreferences (por ejemplo, después del inicio de sesión)
-        // Esto se hace aquí solo como ejemplo. En tu caso, ya debes haber guardado la ID del usuario después del login.
-        val userId = "12345"  // ID del usuario obtenida después del login (ejemplo)
-        guardarIdUsuario(userId)
+        // Aquí puedes inicializar cualquier vista o lógica que necesites al crear la actividad
     }
 
-    // Función para guardar la ID del usuario en SharedPreferences
-    private fun guardarIdUsuario(userId: String) {
-        val prefs = getSharedPreferences("userSession", MODE_PRIVATE)
-        val editor = prefs.edit()
-        editor.putString("USER_ID", userId)
-        editor.apply()
-    }
+    // Método para desactivar la cuenta
+    private fun desactivarCuenta(token: String, idUser: String) {
+        // Usar la URL dinámica desde config
+        val url = config.urlDesactivarCuenta
 
-    // Función para obtener la ID del usuario desde SharedPreferences
-    private fun obtenerIdUsuario(): String? {
-        val prefs = getSharedPreferences("userSession", MODE_PRIVATE)
-        return prefs.getString("USER_ID", null)
-    }
+        // Crear la solicitud PUT
+        val jsonObjectRequest = object : JsonObjectRequest(
+            Request.Method.PUT, url, null,
+            Response.Listener { response ->
+                try {
+                    // Procesar la respuesta del servidor
+                    val estado = response.getString("estado")
+                    Toast.makeText(this, "Cuenta desactivada: $estado", Toast.LENGTH_LONG).show()
 
-    // Función para obtener el token desde SharedPreferences
-    private fun obtenerToken(): String? {
-        val prefs = getSharedPreferences("userSession", MODE_PRIVATE)
-        return prefs.getString("TOKEN", null) // Asegúrate de que el token se guarde aquí
-    }
-
-    fun volver(view: View) {
-        val intent = Intent(application, miperfil::class.java)
-        startActivity(intent)
-    }
-
-    // Función para desactivar la cuenta
-    fun desactivarCuenta(view: View) {
-        // Obtener la ID del usuario desde SharedPreferences
-        val userId = obtenerIdUsuario()
-        val token = obtenerToken()  // Obtener el token
-
-        if (userId != null && token != null) {
-            // URL para desactivar la cuenta
-            val url = "${config.urlDesactivarCuenta}/$userId"
-
-            // Crear la petición PUT con Volley
-            val requestQueue = Volley.newRequestQueue(this)
-            val jsonObjectRequest = object : JsonObjectRequest(
-                Request.Method.PUT,
-                url,
-                null,
-                { response ->
-                    // Manejar la respuesta del servidor
-                    Toast.makeText(this, "Cuenta desactivada: ${response.getString("estado")}", Toast.LENGTH_LONG).show()
-
-                    // Redirigir al usuario a otra pantalla después de desactivar la cuenta
+                    // Redirigir al usuario a la pantalla de inicio de sesión o MainActivity
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
-                },
-                { error ->
-                    // Manejar errores
-                    Toast.makeText(this, "Error al desactivar cuenta: ${error.message}", Toast.LENGTH_LONG).show()
-                }
-            ) {
-                override fun getHeaders(): Map<String, String> {
-                    val headers = HashMap<String, String>()
-                    headers["Authorization"] = "Bearer $token" // Agrega el token en el encabezado
-                    return headers
-                }
-            }
+                    finish() // Cerrar la actividad actual
 
-            // Agregar la petición a la cola
-            requestQueue.add(jsonObjectRequest)
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                    Toast.makeText(this, "Error al desactivar la cuenta", Toast.LENGTH_SHORT).show()
+                }
+            },
+            Response.ErrorListener { error ->
+                error.printStackTrace()
+                Toast.makeText(this, "Error en la solicitud: ${error.message}", Toast.LENGTH_SHORT).show()
+            }
+        ) {
+            // Agregar los headers para la autenticación (por ejemplo, token JWT)
+            override fun getHeaders(): Map<String, String> {
+                val headers = HashMap<String, String>()
+                headers["Authorization"] = "Bearer $token" // Header con el token
+                return headers
+            }
+        }
+
+        // Añadir la solicitud a la cola
+        requestQueue.add(jsonObjectRequest)
+    }
+
+    // Método para el botón de desactivar cuenta
+    fun irDesactivarCuenta(view: View) {
+        // Obtener el token de SharedPreferences
+        val sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
+        val token = sharedPreferences.getString("TOKEN", null)
+
+        if (token != null) {
+            // Obtener el ID del usuario de SharedPreferences o de otra fuente
+            val idUser = sharedPreferences.getString("ID_USER", null)
+            if (idUser != null) {
+                desactivarCuenta(token, idUser) // Llamar a la función para desactivar la cuenta
+            } else {
+                Toast.makeText(this, "Error: ID de usuario no encontrado", Toast.LENGTH_SHORT).show()
+            }
         } else {
-            Toast.makeText(this, "No se pudo obtener la ID del usuario o el token.", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Error: Sesión no válida", Toast.LENGTH_SHORT).show()
         }
     }
 }

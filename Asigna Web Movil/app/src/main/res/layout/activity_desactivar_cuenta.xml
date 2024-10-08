@@ -36,7 +36,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.042" />
 
-
         <TextView
             android:id="@+id/textView4"
             android:layout_width="368dp"
@@ -53,6 +52,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.47" />
 
+        <!-- Botón para desactivar la cuenta -->
         <Button
             android:id="@+id/btnGuardar"
             android:layout_width="305dp"
@@ -62,13 +62,13 @@
             android:text="Desactivar cuenta"
             android:textColor="#202C4A"
             android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.504"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.957" />
-
+            android:onClick="irDesactivarCuenta"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.957" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -84,17 +84,18 @@
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@mipmap/iniciosesion" />
 
+    <!-- Botón para volver -->
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="43dp"
         android:layout_height="45dp"
         android:onClick="volver"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.043"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023"
-        app:srcCompat="@mipmap/flechaiz" />
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.043"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="0.023"
+    app:srcCompat="@mipmap/flechaiz" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
