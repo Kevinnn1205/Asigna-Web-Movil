@@ -28,12 +28,6 @@
             android:textColor="@color/white"
             android:textSize="18sp" />
 
-        <ImageView
-            android:id="@+id/imageViewEspacio"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@mipmap/auditorio" />
-
         <TextView
             android:id="@+id/textViewClasificacionEspacio"
             android:layout_width="wrap_content"
