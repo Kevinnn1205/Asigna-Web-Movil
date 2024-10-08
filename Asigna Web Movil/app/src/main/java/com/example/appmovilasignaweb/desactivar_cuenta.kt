@@ -69,7 +69,7 @@ class desactivar_cuenta : AppCompatActivity() {
     // Método para el botón de desactivar cuenta
     fun irDesactivarCuenta(view: View) {
         // Obtener el token de SharedPreferences
-        val sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
+        val sharedPreferences = getSharedPreferences("MiAppPreferences", MODE_PRIVATE)
         val token = sharedPreferences.getString("TOKEN", null)
 
         if (token != null) {
