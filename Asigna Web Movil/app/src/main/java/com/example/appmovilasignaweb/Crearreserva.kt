@@ -53,40 +53,44 @@ class Crearreserva : Fragment() {
 
     fun crearReserva() {
         try {
-            if (id == "") {
-                val parametros = JSONObject()
-                parametros.put("nombre_completo", txtNombre_completo.text.toString())
-                parametros.put("nombre_espacio", txtNombre_espacio.text.toString())
-                parametros.put("fecha_entrada", txtFecha_entrada.text.toString())
-                parametros.put("fecha_salida", txtFecha_salida.text.toString())
-                parametros.put("hora_entrada", txtHora_entrada.text.toString())
-                parametros.put("hora_salida", txtHora_salida.text.toString())
-
-                val request = JsonObjectRequest(
-                    Request.Method.POST,
-                    config.urlcrearReserva,
-                    parametros,
-                    { response ->
-                        Toast.makeText(
-                            context,
-                            "Reserva creada",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    },
-                    { error ->
-                        Toast.makeText(
-                            context,
-                            "Se generó un error",
-                            Toast.LENGTH_LONG
-                        ).show()
-                        Log.e("Crearreserva", "Error en la solicitud: ${error.message}")
-                    }
-                )
-                val queue = Volley.newRequestQueue(context)
-                queue.add(request)
-            } else {
-                // Implementar lógica para edición si es necesario
+            // Verifica que los campos no estén vacíos
+            if (txtNombre_completo.text.isEmpty() ||
+                txtNombre_espacio.text.isEmpty() ||
+                txtFecha_entrada.text.isEmpty() ||
+                txtFecha_salida.text.isEmpty() ||
+                txtHora_entrada.text.isEmpty() ||
+                txtHora_salida.text.isEmpty()) {
+                Toast.makeText(context, "Por favor, completa todos los campos.", Toast.LENGTH_SHORT).show()
+                return
             }
+
+            val parametros = JSONObject().apply {
+                put("nombre_completo", txtNombre_completo.text.toString())
+                put("nombre_espacio", txtNombre_espacio.text.toString())
+                put("fecha_entrada", txtFecha_entrada.text.toString())
+                put("fecha_salida", txtFecha_salida.text.toString())
+                put("hora_entrada", txtHora_entrada.text.toString())
+                put("hora_salida", txtHora_salida.text.toString())
+            }
+
+            // Realiza la solicitud POST al backend
+            val request = JsonObjectRequest(
+                Request.Method.POST,
+                config.urlcrearReserva, // Asegúrate que esta URL esté correcta
+                parametros,
+                { response ->
+                    // Maneja la respuesta del backend
+                    Toast.makeText(context, "Reserva creada con éxito: ${response.getString("mensaje")}", Toast.LENGTH_LONG).show()
+                },
+                { error ->
+                    Toast.makeText(context, "Error al crear la reserva: ${error.message}", Toast.LENGTH_LONG).show()
+                    Log.e("Crearreserva", "Error en la solicitud: ${error.message}")
+                }
+            )
+
+            val queue = Volley.newRequestQueue(context)
+            queue.add(request)
+
         } catch (error: Exception) {
             Log.e("Crearreserva", "Error al crear la reserva: ${error.message}")
             error.printStackTrace()
