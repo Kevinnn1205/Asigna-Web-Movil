@@ -5,56 +5,70 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="5dp"
+    android:background="@drawable/borderredon_text"
+    android:padding="16dp"
+    android:layout_marginStart="18dp"
+    android:layout_marginEnd="18dp"
     >
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/textViewNombreEspacio"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/borderredon_text"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="16dp"
+        android:fontFamily="@font/candal"
+        android:text="Nombre del espacio"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewClasificacionEspacio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:text="Clasificación del espacio"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@id/textViewCapacidadEspacio"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewNombreEspacio" />
+
+    <TextView
+        android:id="@+id/textViewCapacidadEspacio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Capacidad del espacio"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@id/textViewDescripcionEspacio"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewClasificacionEspacio" />
+
+    <!-- ImageView para icono a la derecha -->
+
+    <ImageView
+        android:id="@+id/imageView17"
+        android:layout_width="70dp"
+        android:layout_height="36dp"
+        app:layout_constraintBottom_toBottomOf="@id/textViewCapacidadEspacio"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/textViewClasificacionEspacio"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@mipmap/icono_escoger" />
+
+    <TextView
+        android:id="@+id/textViewDescripcionEspacio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Descripción del espacio"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.005"
-        android:layout_marginStart="18dp"
-    android:layout_marginEnd="18dp"
-        >
-
-        <TextView
-            android:id="@+id/textViewNombreEspacio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/candal"
-            android:text="Nombre del espacio"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/textViewClasificacionEspacio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:text="Clasificación del espacio"
-            android:textColor="@color/white" />
-
-        <TextView
-            android:id="@+id/textViewCapacidadEspacio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Capacidad del espacio"
-            android:textColor="@color/white" />
-
-        <TextView
-            android:id="@+id/textViewDescripcionEspacio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Descripción del espacio"
-            android:textColor="@color/white" />
-
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@id/textViewCapacidadEspacio" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

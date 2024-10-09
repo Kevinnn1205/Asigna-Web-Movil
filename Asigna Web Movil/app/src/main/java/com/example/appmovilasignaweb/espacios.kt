@@ -1,5 +1,6 @@
 package com.example.appmovilasignaweb
 
+import EspacioAdapter
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -16,12 +17,11 @@ import com.example.appmovilasignaweb.config.config
 import org.json.JSONException
 import com.android.volley.toolbox.JsonArrayRequest
 
-
 class espacios : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var espacioAdapter: EspacioAdapter
-    private var espacioList = mutableListOf<Espacio>() // Inicializa una lista vacía
+    private var espacioList = mutableListOf<Espacio>() // Lista mutable de espacios
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,8 +30,17 @@ class espacios : AppCompatActivity() {
         // Inicializa el RecyclerView
         recyclerView = findViewById(R.id.recyclerViewEspacios)
 
-        // Crea e inicializa el adaptador
-        espacioAdapter = EspacioAdapter(espacioList)
+        // Crea e inicializa el adaptador con la función de clic
+        espacioAdapter = EspacioAdapter(this, espacioList) { espacio ->
+            // Navegar a Contenedor_crear_reserva y pasar los datos del espacio seleccionado
+            val intent = Intent(this, Contenedor_crear_reserva::class.java).apply {
+                putExtra("nombre", espacio.nombre)
+                putExtra("clasificacion", espacio.clasificacion)
+                putExtra("capacidad", espacio.capacidad)
+                putExtra("descripcion", espacio.descripcion)
+            }
+            startActivity(intent)
+        }
 
         // Establece el adaptador
         recyclerView.adapter = espacioAdapter
@@ -51,7 +60,6 @@ class espacios : AppCompatActivity() {
     }
 
     // Método para consultar la API
-    // Método para consultar la API
     private fun consultarAPI() {
         val url = config.urlEspacios // Cambia esta URL por la de tu API
 
@@ -64,17 +72,18 @@ class espacios : AppCompatActivity() {
             Response.Listener { response ->
                 try {
                     // Procesar el JSONArray directamente
+                    espacioList.clear() // Limpiar la lista antes de agregar nuevos datos
                     for (i in 0 until response.length()) {
                         val espacioJson = response.getJSONObject(i)
                         val espacio = Espacio(
-                            nombre = espacioJson.getString("nombre_del_espacio"), // Cambia "nombre" a "nombre_del_espacio"
+                            nombre = espacioJson.getString("nombre_del_espacio"),
                             clasificacion = espacioJson.getString("clasificacion"),
                             capacidad = espacioJson.getString("capacidad"),
                             descripcion = espacioJson.getString("descripcion")
                         )
                         espacioList.add(espacio)
                     }
-                    espacioAdapter.notifyDataSetChanged() // Notifica al adaptador que los datos han cambiado
+                    espacioAdapter.notifyDataSetChanged() // Notificar al adaptador que los datos han cambiado
                     Toast.makeText(this, "Datos cargados exitosamente!", Toast.LENGTH_SHORT).show()
                 } catch (e: JSONException) {
                     e.printStackTrace()
@@ -91,8 +100,7 @@ class espacios : AppCompatActivity() {
         queue.add(jsonArrayRequest)
     }
 
-
-    // Métodos de navegación
+    // Métodos de navegación a otras actividades
     fun irreserva(view: View) {
         val intent = Intent(this, Reserva::class.java)
         startActivity(intent)
