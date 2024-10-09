@@ -121,7 +121,7 @@ class espacios : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun irmiperfil(view: View) {
+    fun irMiPerfil(view: View) {
         val intent = Intent(this, miperfil::class.java)
         startActivity(intent)
     }

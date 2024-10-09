@@ -47,40 +47,57 @@
 
     <ImageView
         android:id="@+id/imageView5"
-        android:layout_width="61dp"
-        android:layout_height="54dp"
+        android:layout_width="38dp"
+        android:layout_height="37dp"
         android:onClick="irModuloInformacion"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.082"
+        app:layout_constraintHorizontal_bias="0.115"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976"
+        app:layout_constraintVertical_bias="0.955"
         app:srcCompat="@mipmap/menu" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="100dp"
+        android:layout_height="28dp"
+        android:fontFamily="@font/candal"
+        android:onClick="irModuloInformacion"
+        android:text="Módulo información"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.049"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.990" />
 
     <ImageView
         android:id="@+id/imageView8"
-        android:layout_width="61dp"
-        android:layout_height="54dp"
+        android:layout_width="38dp"
+        android:layout_height="37dp"
         android:onClick="irAgregarReserva"
         app:layout_constraintBottom_toBottomOf="@+id/fragmentContainerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976"
+        app:layout_constraintVertical_bias="0.944"
         app:srcCompat="@mipmap/agregar" />
 
     <ImageView
         android:id="@+id/imageView9"
-        android:layout_width="61dp"
-        android:layout_height="54dp"
-        android:onClick="irmiperfil"
+        android:layout_width="38dp"
+        android:layout_height="37dp"
+        android:onClick="irMiPerfil"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.908"
+        app:layout_constraintHorizontal_bias="0.841"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976"
+        app:layout_constraintVertical_bias="0.963"
         app:srcCompat="@mipmap/perfil" />
 
     <TextView
@@ -94,6 +111,40 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.022" />
+        app:layout_constraintVertical_bias="0.02" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="100dp"
+        android:layout_height="28dp"
+        android:fontFamily="@font/candal"
+        android:onClick="irAgregarReserva"
+        android:text="Crear reserva"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.995" />
+
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="100dp"
+        android:layout_height="28dp"
+        android:fontFamily="@font/candal"
+        android:onClick="irMiPerfil"
+        android:text="Mi perfil"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.916"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.995" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

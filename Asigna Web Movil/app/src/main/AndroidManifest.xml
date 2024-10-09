@@ -46,9 +46,6 @@
             android:name=".miperfil"
             android:exported="false" />
         <activity
-            android:name=".modificar_datos"
-            android:exported="false" />
-        <activity
             android:name=".espacios"
             android:exported="false" />
         <activity

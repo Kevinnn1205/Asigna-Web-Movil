@@ -28,16 +28,8 @@ class miperfil : AppCompatActivity() {
             insets
         }
 
-        // Encontrar la imagen grande de usuario
-        val imagenUsuario = findViewById<ImageView>(R.id.imageView16)
-        imagenUsuario.setOnClickListener {
-            // Abrir la galería para seleccionar una imagen
-            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            startActivityForResult(intent, PICK_IMAGE)
-        }
-
         // Lógica para el clic en "Cerrar sesión"
-        val cerrarSesion = findViewById<TextView>(R.id.textView12)
+        val cerrarSesion = findViewById<TextView>(R.id.textView16)
         cerrarSesion.setOnClickListener {
             val intent = Intent(applicationContext, inicio_sesion::class.java) // Asegúrate de que LoginActivity es la pantalla de inicio de sesión
             startActivity(intent)
@@ -63,6 +55,11 @@ class miperfil : AppCompatActivity() {
 
     fun irdesactivarcuenta(view: View) {
         val intent = Intent(application, desactivar_cuenta::class.java)
+        startActivity(intent)
+    }
+
+    fun irCambiarContrasena(view: View) {
+        val intent = Intent(application, cambiarcontrasena::class.java)
         startActivity(intent)
     }
 }
