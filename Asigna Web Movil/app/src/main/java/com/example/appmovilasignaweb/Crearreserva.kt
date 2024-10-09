@@ -25,37 +25,66 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
 class Crearreserva : Fragment() {
-    private var param1: String? = null
-    private var param2: String? = null
 
     private lateinit var txtNombre_completo: EditText
-    private lateinit var txtNombre_espacio: EditText
+    private lateinit var txtNombre_espacio: Spinner
     private lateinit var txtFecha_entrada: EditText
     private lateinit var txtFecha_salida: EditText
     private lateinit var txtHora_entrada: EditText
     private lateinit var txtHora_salida: EditText
-
     private lateinit var btnGuardar: Button
 
-    private var id: String = ""
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_crearreserva, container, false)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+        // Obtener las referencias de los botones y EditText
+        val btnCalendario = view.findViewById<ImageView>(R.id.btnCalendario)
+        val btnCalendario2 = view.findViewById<ImageView>(R.id.btnCalendario2)
+        txtFecha_entrada = view.findViewById(R.id.txtFecha_entrada)
+        txtFecha_salida = view.findViewById(R.id.txtFecha_salida)
+        txtHora_entrada = view.findViewById(R.id.txtHora_entrada)
+        txtHora_salida = view.findViewById(R.id.txtHora_salida)
+        btnGuardar = view.findViewById(R.id.btnGuardar)
+
+        // Configurar el Spinner
+        txtNombre_espacio = view.findViewById(R.id.SpinnerNombreEspacio)
+        val opciones = arrayOf("cancha", "gimnasio", "auditorio", "biblioteca")
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, opciones)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        txtNombre_espacio.adapter = adapter
+
+        // Asignar los listeners de clic a los botones
+        btnCalendario.setOnClickListener {
+            mostrarCalendario(txtFecha_entrada, true)
         }
+
+        btnCalendario2.setOnClickListener {
+            mostrarCalendario(txtFecha_salida, false)
+        }
+
+        txtHora_entrada.setOnClickListener {
+            mostrarHora(txtHora_entrada, true)
+        }
+
+        txtHora_salida.setOnClickListener {
+            mostrarHora(txtHora_salida, false)
+        }
+
+        btnGuardar.setOnClickListener {
+            crearReserva()
+        }
+
+        return view
     }
 
     fun crearReserva() {
         try {
             // Verifica que los campos no estén vacíos
             if (txtNombre_completo.text.isEmpty() ||
-                txtNombre_espacio.text.isEmpty() ||
                 txtFecha_entrada.text.isEmpty() ||
                 txtFecha_salida.text.isEmpty() ||
                 txtHora_entrada.text.isEmpty() ||
@@ -64,30 +93,43 @@ class Crearreserva : Fragment() {
                 return
             }
 
+            // Crear el objeto JSON con los parámetros a enviar
             val parametros = JSONObject().apply {
                 put("nombre_completo", txtNombre_completo.text.toString())
-                put("nombre_espacio", txtNombre_espacio.text.toString())
+                put("nombre_espacio", txtNombre_espacio.selectedItem.toString())
                 put("fecha_entrada", txtFecha_entrada.text.toString())
                 put("fecha_salida", txtFecha_salida.text.toString())
                 put("hora_entrada", txtHora_entrada.text.toString())
                 put("hora_salida", txtHora_salida.text.toString())
             }
 
-            // Realiza la solicitud POST al backend
+            // Realizar la solicitud POST al backend
             val request = JsonObjectRequest(
                 Request.Method.POST,
-                config.urlcrearReserva, // Asegúrate que esta URL esté correcta
+                config.urlcrearReserva,  // Aquí va la URL del endpoint de backend
                 parametros,
                 { response ->
-                    // Maneja la respuesta del backend
-                    Toast.makeText(context, "Reserva creada con éxito: ${response.getString("mensaje")}", Toast.LENGTH_LONG).show()
+                    // Manejar la respuesta exitosa del backend
+                    Toast.makeText(context, "Reserva creada con éxito", Toast.LENGTH_LONG).show()
                 },
                 { error ->
-                    Toast.makeText(context, "Error al crear la reserva: ${error.message}", Toast.LENGTH_LONG).show()
+                    // Manejar el error
+                    error.networkResponse?.let {
+                        val statusCode = it.statusCode
+                        if (statusCode == 400) {
+                            val errorResponse = String(it.data)
+                            Toast.makeText(context, "Error: $errorResponse", Toast.LENGTH_LONG).show()
+                        } else {
+                            Toast.makeText(context, "Error al crear la reserva", Toast.LENGTH_LONG).show()
+                        }
+                    } ?: run {
+                        Toast.makeText(context, "Error desconocido", Toast.LENGTH_LONG).show()
+                    }
                     Log.e("Crearreserva", "Error en la solicitud: ${error.message}")
                 }
             )
 
+            // Agregar la solicitud a la cola de peticiones
             val queue = Volley.newRequestQueue(context)
             queue.add(request)
 
@@ -122,130 +164,20 @@ class Crearreserva : Fragment() {
     }
 
     fun mostrarHora(text: EditText, esHoraEntrada: Boolean) {
-        try {
-            val calendar = Calendar.getInstance()
-            val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
-            val currentMinute = calendar.get(Calendar.MINUTE)
+        val calendar = Calendar.getInstance()
+        val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
+        val currentMinute = calendar.get(Calendar.MINUTE)
 
-            val timePickerDialog = TimePickerDialog(requireContext(), { _, selectedHour, selectedMinute ->
-                val selectedTime = Calendar.getInstance().apply {
-                    set(Calendar.HOUR_OF_DAY, selectedHour)
-                    set(Calendar.MINUTE, selectedMinute)
-                }
-
-                if (esHoraEntrada) {
-                    // Validar que la hora de entrada no sea anterior a la actual
-                    if (selectedTime.before(Calendar.getInstance())) {
-                        Toast.makeText(requireContext(), "No puedes seleccionar una hora anterior a la actual.", Toast.LENGTH_SHORT).show()
-                    } else {
-                        // Formatear y establecer la hora de entrada
-                        val formattedTime = String.format(Locale.getDefault(), "%02d:%02d", selectedHour, selectedMinute)
-                        text.setText(formattedTime)
-                    }
-                } else {
-                    // Validar que la hora de salida no sea anterior a la hora de entrada
-                    val horaEntradaStr = txtHora_entrada.text.toString()
-                    if (horaEntradaStr.isEmpty()) {
-                        Toast.makeText(requireContext(), "Primero selecciona la hora de entrada.", Toast.LENGTH_SHORT).show()
-                        return@TimePickerDialog
-                    }
-
-                    val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
-                    try {
-                        val horaEntrada = sdf.parse(horaEntradaStr)
-                        if (horaEntrada != null) {
-                            val horaSalida = sdf.parse(String.format(Locale.getDefault(), "%02d:%02d", selectedHour, selectedMinute))
-                            if (horaSalida != null && horaSalida.before(horaEntrada)) {
-                                Toast.makeText(requireContext(), "La hora de salida no puede ser anterior a la hora de entrada.", Toast.LENGTH_SHORT).show()
-                                return@TimePickerDialog
-                            }
-                        }
-                    } catch (e: ParseException) {
-                        Toast.makeText(requireContext(), "Error al procesar las horas.", Toast.LENGTH_SHORT).show()
-                        Log.e("Crearreserva", "Error al parsear las horas: ${e.message}")
-                        return@TimePickerDialog
-                    }
-
-                    // Formatear y establecer la hora de salida
-                    val formattedTime = String.format(Locale.getDefault(), "%02d:%02d", selectedHour, selectedMinute)
-                    text.setText(formattedTime)
-                }
-            }, currentHour, currentMinute, true)
-
-            timePickerDialog.show()
-
-        } catch (e: Exception) {
-            Log.e("Crearreserva", "Error en TimePickerDialog: ${e.message}")
-            e.printStackTrace()
-        }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_crearreserva, container, false)
-
-        // Obtener las referencias de los botones y EditText
-        val btnCalendario = view.findViewById<ImageView>(R.id.btnCalendario)
-        val btnCalendario2 = view.findViewById<ImageView>(R.id.btnCalendario2)
-        txtFecha_entrada = view.findViewById(R.id.txtFecha_entrada)
-        txtFecha_salida = view.findViewById(R.id.txtFecha_salida)
-
-        btnGuardar = view.findViewById(R.id.btnGuardar)
-
-        // Nuevas referencias para los campos de hora
-        txtHora_entrada = view.findViewById(R.id.txtHora_entrada)
-        txtHora_salida = view.findViewById(R.id.txtHora_salida)
-
-        // Configurar el Spinner
-        val spinner: Spinner = view.findViewById(R.id.SpinnerNombreEspacio)
-        val opciones = arrayOf("cancha", "gimnasio", "auditorio", "biblioteca")
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, opciones)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner.adapter = adapter
-
-        // Asignar los listeners de clic a los botones
-        btnCalendario.setOnClickListener {
-            mostrarCalendario(txtFecha_entrada, true)
-        }
-
-        btnCalendario2.setOnClickListener {
-            mostrarCalendario(txtFecha_salida, false)
-        }
-
-        // Asignar los listeners de clic a los campos de hora
-        txtHora_entrada.setOnClickListener {
-            if (::txtHora_entrada.isInitialized) {
-                mostrarHora(txtHora_entrada, true)
-            } else {
-                Log.e("Crearreserva", "txtHora_entrada no está inicializado")
+        val timePickerDialog = TimePickerDialog(requireContext(), { _, selectedHour, selectedMinute ->
+            val selectedTime = Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, selectedHour)
+                set(Calendar.MINUTE, selectedMinute)
             }
-        }
 
-        txtHora_salida.setOnClickListener {
-            if (::txtHora_salida.isInitialized) {
-                mostrarHora(txtHora_salida, false)
-            } else {
-                Log.e("Crearreserva", "txtHora_salida no está inicializado")
-            }
-        }
+            val formattedTime = String.format(Locale.getDefault(), "%02d:%02d", selectedHour, selectedMinute)
+            text.setText(formattedTime)
+        }, currentHour, currentMinute, true)
 
-        btnGuardar.setOnClickListener {
-            crearReserva()
-        }
-
-        return view
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            Crearreserva().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        timePickerDialog.show()
     }
 }
