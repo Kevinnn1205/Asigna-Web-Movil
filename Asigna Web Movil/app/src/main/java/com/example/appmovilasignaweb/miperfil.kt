@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -18,6 +19,8 @@ import com.android.volley.toolbox.Volley
 import com.example.appmovilasignaweb.config.config
 import com.example.appmovilasignaweb.models.userRegistro
 import org.json.JSONException
+import android.content.Context
+
 
 class miperfil : AppCompatActivity() {
 
@@ -47,7 +50,7 @@ class miperfil : AppCompatActivity() {
         cerrarSesionIcono.setOnClickListener { cerrarSesion() }
 
         // Obtener los datos del usuario cuando la actividad inicia
-        fetchUserData()
+        obtenerDatosUsuario()
     }
 
     // Función para cerrar la sesión
@@ -66,53 +69,53 @@ class miperfil : AppCompatActivity() {
         finish() // Cierra la actividad actual para que el usuario no pueda volver a esta pantalla
     }
 
-    private fun fetchUserData() {
-        // Inicializar la cola de solicitudes de Volley
-        val queue = Volley.newRequestQueue(this)
-
-        // Recuperar el token de SharedPreferences
+    fun obtenerDatosUsuario() {
+        val urlDatosUsuario = config.urlProfile
         val token = sharedPreferences.getString("TOKEN", null)
 
-        // Verificar que el token no sea nulo
-        if (token == null) {
-            Toast.makeText(this, "Token no encontrado. Por favor, inicie sesión nuevamente.", Toast.LENGTH_SHORT).show()
+        if (token.isNullOrEmpty()) {
+            Log.e("Error", "Token no encontrado")
             return
         }
 
-        // Definir la URL para el endpoint de la API
-        val url = config.urlProfile // Cambia a la URL de tu API
+        val queue = Volley.newRequestQueue(this)
 
-        // Crear una JsonObjectRequest
         val jsonObjectRequest = object : JsonObjectRequest(
-            Request.Method.GET, url, null,
+            Request.Method.GET, urlDatosUsuario, null,
             Response.Listener { response ->
                 try {
-                    // Suponiendo que la respuesta es un objeto de usuario
-                    val userJson = response.getJSONObject("user") // Ajusta según la estructura real de la respuesta
-                    val user = userRegistro(
-                        tipo_documento = userJson.getString("tipo_documento"),
-                        numero_documento = userJson.getString("numero_documento"),
-                        rol = userJson.getString("rol"),
-                        nombre_completo = userJson.getString("nombre_completo"),
-                        username = userJson.getString("username"),
-                        id_user = userJson.getString("id_user") // Obtén el id_user
-                    )
+                    // Aquí se asume que la respuesta es directamente un objeto userRegistro
+                    // Imprimir la respuesta completa para depuración
+                    Log.d("Response", response.toString())
 
-                    // Aquí puedes almacenar id_user o hacer cualquier otra operación necesaria
-                    id_user = user.id_user // Guardar el id_user para usarlo más adelante
-                    Log.d("User ID", "ID del usuario: $id_user") // Ejemplo de uso
+                    // Obtener los datos directamente del objeto JSON
+                    val nombreCompleto = response.optString("nombre_completo", "No disponible")
+                    val username = response.optString("username", "No disponible")
+                    val tipoDocumento = response.optString("tipo_documento", "No disponible")
+                    val numeroDocumento = response.optString("numero_documento", "No disponible")
+                    val rol = response.optString("rol", "No disponible")
+
+                    // Actualizar la interfaz de usuario
+                    findViewById<TextView>(R.id.textViewNombre_completo).text = nombreCompleto
+                    findViewById<TextView>(R.id.textViewusername).text = username
+                    findViewById<TextView>(R.id.textViewTipo_documento).text = tipoDocumento
+                    findViewById<TextView>(R.id.textViewNumero_documento).text = numeroDocumento
+                    findViewById<TextView>(R.id.textViewrol).text = rol
 
                 } catch (e: JSONException) {
                     Log.e("Error JSON", "Error al analizar los datos del usuario: ${e.message}")
+                    Toast.makeText(this, "Error al obtener los datos del usuario", Toast.LENGTH_SHORT).show()
                 }
             },
             Response.ErrorListener { error ->
                 Log.e("Error Volley", "Error al recuperar los datos del usuario: ${error.message}")
+                Toast.makeText(this, "Error: ${error.message}", Toast.LENGTH_SHORT).show()
             }
         ) {
             override fun getHeaders(): Map<String, String> {
                 val headers = HashMap<String, String>()
-                headers["Authorization"] = "Bearer $token" // Cambia al token real
+                headers["Authorization"] = "Bearer $token"
+                headers["Content-Type"] = "application/json"
                 return headers
             }
         }
@@ -120,6 +123,7 @@ class miperfil : AppCompatActivity() {
         // Agregar la solicitud a la RequestQueue
         queue.add(jsonObjectRequest)
     }
+
 
     // Métodos para navegar a otras actividades
     fun volver(view: View) {
@@ -137,3 +141,4 @@ class miperfil : AppCompatActivity() {
         startActivity(intent)
     }
 }
+
