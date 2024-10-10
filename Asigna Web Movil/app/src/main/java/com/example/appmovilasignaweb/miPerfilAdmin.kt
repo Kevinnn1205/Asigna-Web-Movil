@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -44,6 +45,9 @@ class miPerfilAdmin : AppCompatActivity() {
         val editor = sharedPreferences.edit()
         editor.clear() // O puedes remover solo el token con editor.remove("token")
         editor.apply()
+
+        // Mostrar un mensaje de que la sesión ha sido cerrada
+        Toast.makeText(this, "Sesión cerrada.", Toast.LENGTH_SHORT).show()
 
         // Redirigir al usuario a la pantalla de inicio de sesión
         val intent = Intent(applicationContext, inicio_sesion::class.java)
