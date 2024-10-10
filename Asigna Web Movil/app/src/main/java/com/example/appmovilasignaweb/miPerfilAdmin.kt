@@ -20,7 +20,7 @@ class miPerfilAdmin : AppCompatActivity() {
             insets
         }
         // Lógica para el clic en "Cerrar sesión"
-        val cerrarSesion = findViewById<TextView>(R.id.textView12)
+        val cerrarSesion = findViewById<TextView>(R.id.textView15)
         cerrarSesion.setOnClickListener {
             val intent = Intent(applicationContext, inicio_sesion::class.java) // Asegúrate de que LoginActivity es la pantalla de inicio de sesión
             startActivity(intent)
@@ -28,7 +28,7 @@ class miPerfilAdmin : AppCompatActivity() {
         }
     }
     fun volver(view: View) {
-        val intent = Intent(application, espacios::class.java)
+        val intent = Intent(application, moduloInformacionAdmin::class.java)
         startActivity(intent)
     }
 

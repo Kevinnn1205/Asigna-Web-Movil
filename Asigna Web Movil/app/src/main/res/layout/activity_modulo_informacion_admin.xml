@@ -8,6 +8,7 @@
     tools:context=".moduloInformacionAdmin"
     android:background="#FFFFFF">
 
+
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="47dp"
@@ -21,107 +22,16 @@
         app:layout_constraintVertical_bias="0.022"
         app:srcCompat="@mipmap/flechaiz" />
 
-    <EditText
-        android:id="@+id/txtTipoDocumento"
-        android:layout_width="382dp"
-        android:layout_height="51dp"
-        android:background="@drawable/rounded_text"
-        android:backgroundTint="#202C4A"
-        android:ems="10"
-        android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.482"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.083" />
-
-    <ImageView
-        android:id="@+id/imageView10"
-        android:layout_width="28dp"
-        android:layout_height="37dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.924"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.09"
-        app:srcCompat="@mipmap/magnifying" />
-
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView2"
-        android:name="com.example.appmovilasignaweb.contendor"
-        android:layout_width="311dp"
-        android:layout_height="525dp"
-        android:background="@drawable/borderredon_text"
-        android:backgroundTint="#202C4A"
-        android:onClick="irCrearReserva"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.48"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.517" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/candal"
-        android:text="Auditorio"
-        android:textColor="@color/white"
-        android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.211" />
-
-    <ImageView
-        android:id="@+id/imageView11"
-        android:layout_width="264dp"
-        android:layout_height="192dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.382"
-        app:srcCompat="@mipmap/auditorio" />
-
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="305dp"
-        android:layout_height="122dp"
-        android:fontFamily="@font/candal"
-        android:text="Bienvenido a nuestro auditorio,
-un espacio diseñado para albergar
- una amplia gama de eventos
-y actividades emocionantes. "
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewEspacios"
+        android:layout_width="415dp"
+        android:layout_height="672dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/fragmentContainerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.666" />
-
-    <Button
-        android:id="@+id/btnGuardar"
-        android:layout_width="153dp"
-        android:layout_height="61dp"
-        android:backgroundTint="#3EBFFF"
-        android:fontFamily="@font/candal"
-        android:onClick="irreserva"
-        android:text="Enviar"
-        android:textColor="#202C4A"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.777" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
@@ -133,45 +43,109 @@ y actividades emocionantes. "
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewEspacios"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/imageView5"
-        android:layout_width="61dp"
-        android:layout_height="54dp"
+        android:layout_width="38dp"
+        android:layout_height="37dp"
         android:onClick="irModuloInformacion"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.098"
+        app:layout_constraintHorizontal_bias="0.115"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.978"
+        app:layout_constraintVertical_bias="0.955"
         app:srcCompat="@mipmap/menu" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="100dp"
+        android:layout_height="28dp"
+        android:fontFamily="@font/candal"
+        android:onClick="irModuloInformacion"
+        android:text="Módulo información"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.049"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.990" />
 
     <ImageView
         android:id="@+id/imageView8"
-        android:layout_width="61dp"
-        android:layout_height="54dp"
-        android:onClick="irCrearCuentas"
+        android:layout_width="38dp"
+        android:layout_height="37dp"
+        android:onClick="irAgregarReserva"
         app:layout_constraintBottom_toBottomOf="@+id/fragmentContainerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976"
+        app:layout_constraintVertical_bias="0.944"
         app:srcCompat="@mipmap/agregar" />
 
     <ImageView
         android:id="@+id/imageView9"
-        android:layout_width="61dp"
-        android:layout_height="54dp"
-        android:onClick="irmiperfil"
+        android:layout_width="38dp"
+        android:layout_height="37dp"
+        android:onClick="irMiPerfil"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.917"
+        app:layout_constraintHorizontal_bias="0.841"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.977"
+        app:layout_constraintVertical_bias="0.963"
         app:srcCompat="@mipmap/perfil" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/candal"
+        android:text="Reservar espacio"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.02" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="100dp"
+        android:layout_height="28dp"
+        android:fontFamily="@font/candal"
+        android:onClick="irAgregarReserva"
+        android:text="Crear reserva"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.995" />
+
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="100dp"
+        android:layout_height="28dp"
+        android:fontFamily="@font/candal"
+        android:onClick="irMiPerfil"
+        android:text="Mi perfil"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.916"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.995" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

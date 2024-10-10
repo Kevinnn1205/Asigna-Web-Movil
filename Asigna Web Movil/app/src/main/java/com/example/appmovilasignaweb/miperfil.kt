@@ -41,7 +41,7 @@ class miperfil : AppCompatActivity() {
         sharedPreferences = getSharedPreferences("MiAppPreferences", MODE_PRIVATE)
 
         // Lógica para hacer clic en "Cerrar sesión"
-        val cerrarSesion = findViewById<TextView>(R.id.textView16)
+        val cerrarSesion = findViewById<TextView>(R.id.textView15)
         cerrarSesion.setOnClickListener {
             val intent = Intent(applicationContext, inicio_sesion::class.java)
             startActivity(intent)

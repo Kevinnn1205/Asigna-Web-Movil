@@ -13,13 +13,13 @@
         android:layout_width="374dp"
         android:layout_height="49dp"
         android:fontFamily="@font/candal"
-        android:text="Reservación"
+        android:text="Crear reserva"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="40sp"
+        android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.648"
+        app:layout_constraintHorizontal_bias="0.486"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.057" />
@@ -238,30 +238,17 @@
     <Button
         android:id="@+id/btnGuardar"
         android:layout_width="159dp"
-        android:layout_height="52dp"
+        android:layout_height="55dp"
         android:backgroundTint="#3EBFFF"
         android:fontFamily="@font/candal"
-        android:text="Reserva"
+        android:text="Reservar"
         android:textColor="#202C4A"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.997" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="47dp"
-        android:layout_height="31dp"
-        android:onClick="volver"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.016"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.022"
-        app:srcCompat="@mipmap/iconovolver" />
+        app:layout_constraintVertical_bias="1" />
 
     <ImageView
         android:id="@+id/btnCalendario"
