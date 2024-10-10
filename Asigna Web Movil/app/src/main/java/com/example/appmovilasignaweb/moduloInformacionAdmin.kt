@@ -122,7 +122,7 @@ class moduloInformacionAdmin : AppCompatActivity() {
     }
 
     fun irMiPerfil(view: View) {
-        val intent = Intent(this, miperfil::class.java)
+        val intent = Intent(this, miPerfilAdmin::class.java)
         startActivity(intent)
     }
 }

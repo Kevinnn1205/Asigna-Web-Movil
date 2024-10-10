@@ -64,7 +64,7 @@
         android:layout_height="28dp"
         android:fontFamily="@font/candal"
         android:onClick="irCambiarContrasena"
-        android:text="Cambiar contraseña"
+        android:text="Modificar contraseña"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="10sp"

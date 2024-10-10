@@ -1,14 +1,13 @@
 package com.example.appmovilasignaweb
 
-import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -27,7 +26,6 @@ class miperfil : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_miperfil)
 
         // Manejo de márgenes para los bordes de la pantalla
@@ -40,16 +38,32 @@ class miperfil : AppCompatActivity() {
         // Inicializar SharedPreferences
         sharedPreferences = getSharedPreferences("MiAppPreferences", MODE_PRIVATE)
 
-        // Lógica para hacer clic en "Cerrar sesión"
-        val cerrarSesion = findViewById<TextView>(R.id.textView15)
-        cerrarSesion.setOnClickListener {
-            val intent = Intent(applicationContext, inicio_sesion::class.java)
-            startActivity(intent)
-            finish() // Cerrar la actividad actual para evitar que el usuario regrese
-        }
+        // Lógica para hacer clic en "Cerrar sesión" (texto e ícono)
+        val cerrarSesionTexto = findViewById<TextView>(R.id.textView15)
+        val cerrarSesionIcono = findViewById<ImageView>(R.id.imageView15)
+
+        // Configurar el clic tanto en el texto como en el ícono
+        cerrarSesionTexto.setOnClickListener { cerrarSesion() }
+        cerrarSesionIcono.setOnClickListener { cerrarSesion() }
 
         // Obtener los datos del usuario cuando la actividad inicia
         fetchUserData()
+    }
+
+    // Función para cerrar la sesión
+    private fun cerrarSesion() {
+        // Limpiar las preferencias guardadas (por ejemplo, token de usuario)
+        val editor = sharedPreferences.edit()
+        editor.clear() // O puedes remover solo el token con editor.remove("TOKEN")
+        editor.apply()
+
+        // Mostrar un mensaje de que la sesión ha sido cerrada
+        Toast.makeText(this, "Sesión cerrada.", Toast.LENGTH_SHORT).show()
+
+        // Redirigir al usuario a la pantalla de inicio de sesión
+        val intent = Intent(applicationContext, inicio_sesion::class.java)
+        startActivity(intent)
+        finish() // Cierra la actividad actual para que el usuario no pueda volver a esta pantalla
     }
 
     private fun fetchUserData() {
@@ -118,8 +132,8 @@ class miperfil : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun irCambiarContrasena(view: View) {
-        val intent = Intent(application, cambiarcontrasena::class.java)
+    fun irCambiarContra(view: View) {
+        val intent = Intent(application, Cambiarcontra::class.java)
         startActivity(intent)
     }
 }
