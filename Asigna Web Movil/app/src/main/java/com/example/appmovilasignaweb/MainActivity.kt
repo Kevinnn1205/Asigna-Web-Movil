@@ -20,13 +20,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun iriniciodesesion(view: View){
-        var intent= Intent(application,inicio_sesion::class.java)
+    fun iriniciodesesion(view: View) {
+        var intent = Intent(application, inicio_sesion::class.java)
         startActivity(intent)
     }
-    fun irAgregarEspacio(view: View){
-        var intent= Intent(application,agregar_espacios::class.java)
-        startActivity(intent)
-    }
+
 
 }
