@@ -116,13 +116,14 @@ class moduloInformacionAdmin : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun irAgregarEspacio(view: View) {
-        val intent = Intent(this, agregar_espacios::class.java)
-        startActivity(intent)
-    }
 
     fun irMiPerfil(view: View) {
         val intent = Intent(this, miPerfilAdmin::class.java)
+        startActivity(intent)
+    }
+
+    fun irmoduloinformacionadministrador(view: View) {
+        val intent = Intent(this, moduloInformacionAdmin::class.java)
         startActivity(intent)
     }
 }
