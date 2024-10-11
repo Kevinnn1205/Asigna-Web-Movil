@@ -27,7 +27,7 @@ class config {
         // URL para desactivar cuenta (nota el `id_user` como parámetro dinámico)
 
 
-        val urlDesactivarCuenta = urlBase + "user/desactivar/"
+        val urlDesactivarCuenta = urlBase + "user/desactivar"
 
         //Traer los espacios
         val urlEspacios=urlBase+"espacio/"
