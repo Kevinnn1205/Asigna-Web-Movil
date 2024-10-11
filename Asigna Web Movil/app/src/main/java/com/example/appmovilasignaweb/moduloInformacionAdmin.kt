@@ -116,8 +116,8 @@ class moduloInformacionAdmin : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun irModuloInformacion(view: View) {
-        val intent = Intent(this, espacios::class.java)
+    fun irAgregarEspacio(view: View) {
+        val intent = Intent(this, agregar_espacios::class.java)
         startActivity(intent)
     }
 
