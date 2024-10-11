@@ -80,16 +80,8 @@ class inicio_sesion : AppCompatActivity() {
                 try {
                     val token = response.getString("token")
 
-                    // Mostrar alerta de inicio de sesión exitoso
-                    showAlert("Inicio de sesión exitoso", "Aceptar") {
-                        // Guardar el token en SharedPreferences
-                        val editor = sharedPreferences.edit()
-                        editor.putString("TOKEN", token)
-                        editor.apply()
-
-                        // Verificar el estado de la contraseña
-                        verificarEstadoContrasena(token)
-                    }
+                    // Llamar a la función para verificar el estado del usuario
+                    checkUserStatus(token)
 
                 } catch (e: JSONException) {
                     e.printStackTrace()
@@ -99,9 +91,46 @@ class inicio_sesion : AppCompatActivity() {
             Response.ErrorListener { error ->
                 // Manejar el error de usuario no encontrado
                 error.printStackTrace()
-                showAlert("Usuario no encontrado", "Aceptar")
+                showAlert("Credenciales incorrectas. Inténtalo de nuevo.", "Aceptar")
             }
         ) {}
+
+        requestQueue.add(jsonObjectRequest)
+    }
+
+    private fun checkUserStatus(token: String) {
+        val url = urlBase + "user/verificar-estado"
+
+        val jsonObjectRequest = object : JsonObjectRequest(
+            Request.Method.GET, url, null,
+            Response.Listener { response ->
+                try {
+                    val estado = response.getString("estado") // Obtener el estado
+
+                    if (estado != "Activo") {
+                        showAlert("La cuenta está desactivada", "Aceptar")
+                        return@Listener
+                    }
+
+                    // Si la cuenta está activa, proceder a verificar la contraseña
+                    verificarEstadoContrasena(token)
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                    Toast.makeText(this, "Error al verificar el estado del usuario", Toast.LENGTH_SHORT).show()
+                }
+            },
+            Response.ErrorListener { error ->
+                error.printStackTrace()
+                Toast.makeText(this, "Error al verificar el estado del usuario", Toast.LENGTH_SHORT).show()
+            }
+        ) {
+            override fun getHeaders(): Map<String, String> {
+                val headers = HashMap<String, String>()
+                headers["Authorization"] = "Bearer $token"
+                return headers
+            }
+        }
 
         requestQueue.add(jsonObjectRequest)
     }
