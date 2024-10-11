@@ -24,14 +24,9 @@ class MainActivity : AppCompatActivity() {
         var intent= Intent(application,inicio_sesion::class.java)
         startActivity(intent)
     }
-    fun ircrearcuenta(view: View){
-        var intent= Intent(application,crear_cuenta::class.java)
+    fun irAgregarEspacio(view: View){
+        var intent= Intent(application,agregar_espacios::class.java)
         startActivity(intent)
     }
-    fun irMiPerfilAdmin(view: View){
-        var intent= Intent(application,miPerfilAdmin::class.java)
-        startActivity(intent)
-    }
-
 
 }
