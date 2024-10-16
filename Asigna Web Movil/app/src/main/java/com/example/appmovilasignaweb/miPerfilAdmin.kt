@@ -91,7 +91,7 @@ class miPerfilAdmin : AppCompatActivity() {
 
                     // Actualizar la interfaz de usuario
                     findViewById<TextView>(R.id.textViewNombre_completo).text = nombreCompleto
-                    findViewById<TextView>(R.id.textViewusername).text = username
+                    findViewById<TextView>(R.id.textView_username).text = username
                     findViewById<TextView>(R.id.textViewTipo_documento).text = tipoDocumento
                     findViewById<TextView>(R.id.textViewNumero_documento).text = numeroDocumento
                     findViewById<TextView>(R.id.textViewrol).text = rol
