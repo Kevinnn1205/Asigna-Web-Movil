@@ -25,7 +25,7 @@ class moduloInformacionAdmin : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_espacios)
+        setContentView(R.layout.activity_modulo_informacion_admin)
 
         // Inicializa el RecyclerView
         recyclerView = findViewById(R.id.recyclerViewEspacios)
@@ -111,8 +111,8 @@ class moduloInformacionAdmin : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun irAgregarReserva(view: View) {
-        val intent = Intent(this, Contenedor_crear_reserva::class.java)
+    fun irCrearCuentas(view: View) {
+        val intent = Intent(this, crear_cuenta::class.java)
         startActivity(intent)
     }
 
