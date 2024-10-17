@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -17,15 +16,11 @@ import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.example.appmovilasignaweb.config.config
-import com.example.appmovilasignaweb.models.userRegistro
 import org.json.JSONException
-import android.content.Context
-
 
 class miperfil : AppCompatActivity() {
 
     private lateinit var sharedPreferences: SharedPreferences
-    private var id_user: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,13 +36,9 @@ class miperfil : AppCompatActivity() {
         // Inicializar SharedPreferences
         sharedPreferences = getSharedPreferences("MiAppPreferences", MODE_PRIVATE)
 
-        // Lógica para hacer clic en "Cerrar sesión" (texto e ícono)
-        val cerrarSesionTexto = findViewById<TextView>(R.id.textView15)
-        val cerrarSesionIcono = findViewById<ImageView>(R.id.imageView15)
-
-        // Configurar el clic tanto en el texto como en el ícono
-        cerrarSesionTexto.setOnClickListener { cerrarSesion() }
-        cerrarSesionIcono.setOnClickListener { cerrarSesion() }
+        // Configurar el listener para cerrar sesión (texto e ícono)
+        findViewById<TextView>(R.id.textView15).setOnClickListener { cerrarSesion() }
+        findViewById<ImageView>(R.id.imageView15).setOnClickListener { cerrarSesion() }
 
         // Obtener los datos del usuario cuando la actividad inicia
         obtenerDatosUsuario()
@@ -69,9 +60,10 @@ class miperfil : AppCompatActivity() {
         finish() // Cierra la actividad actual para que el usuario no pueda volver a esta pantalla
     }
 
+    // Método para obtener datos del usuario
     fun obtenerDatosUsuario() {
         val urlDatosUsuario = config.urlProfile
-        val token = sharedPreferences.getString("TOKEN", null)
+        val token = sharedPreferences.getString("token", null)
 
         if (token.isNullOrEmpty()) {
             Log.e("Error", "Token no encontrado")
@@ -109,7 +101,7 @@ class miperfil : AppCompatActivity() {
             },
             Response.ErrorListener { error ->
                 Log.e("Error Volley", "Error al recuperar los datos del usuario: ${error.message}")
-                Toast.makeText(this, "Error: ${error.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Error al obtener los datos del usuario", Toast.LENGTH_SHORT).show()
             }
         ) {
             override fun getHeaders(): Map<String, String> {
@@ -123,7 +115,6 @@ class miperfil : AppCompatActivity() {
         // Agregar la solicitud a la RequestQueue
         queue.add(jsonObjectRequest)
     }
-
 
     // Métodos para navegar a otras actividades
     fun volver(view: View) {
@@ -141,4 +132,3 @@ class miperfil : AppCompatActivity() {
         startActivity(intent)
     }
 }
-

@@ -65,7 +65,7 @@ class miPerfilAdmin : AppCompatActivity() {
     }
     fun obtenerDatosUsuario() {
         val urlDatosUsuario = config.urlProfile
-        val token = sharedPreferences.getString("TOKEN", null)
+        val token = sharedPreferences.getString("token", null)
 
         if (token.isNullOrEmpty()) {
             Log.e("Error", "Token no encontrado")

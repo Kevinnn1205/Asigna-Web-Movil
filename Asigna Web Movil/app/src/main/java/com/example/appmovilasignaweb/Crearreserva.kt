@@ -2,18 +2,13 @@ package com.example.appmovilasignaweb
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Spinner
-import android.widget.Toast
-import android.util.Log
+import android.widget.*
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
@@ -38,6 +33,8 @@ class Crearreserva : Fragment() {
     private var horaEntrada: Calendar? = null
     private var horaSalida: Calendar? = null
 
+    private lateinit var sharedPreferences: SharedPreferences
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,23 +43,28 @@ class Crearreserva : Fragment() {
 
         // Inicializar las referencias de los componentes de la interfaz
         txtNombre_completo = view.findViewById(R.id.txtNombre_completo)
-        txtusername = view.findViewById(R.id.txtusername)  // Inicialización del nuevo campo
+        txtusername = view.findViewById(R.id.txtusername)
         txtFecha_entrada = view.findViewById(R.id.txtFecha_entrada)
         txtFecha_salida = view.findViewById(R.id.txtFecha_salida)
         txtHora_entrada = view.findViewById(R.id.txtHora_entrada)
         txtHora_salida = view.findViewById(R.id.txtHora_salida)
         btnGuardar = view.findViewById(R.id.btnGuardar)
 
+        // Inicializar SharedPreferences
+        sharedPreferences = requireContext().getSharedPreferences("MiAppPreferences", 0)
+
         // Inicializar los botones de los calendarios
         val btnCalendario = view.findViewById<ImageView>(R.id.btnCalendario)
         val btnCalendario2 = view.findViewById<ImageView>(R.id.btnCalendario2)
 
-        // Configurar el Spinner con las opciones
+        // Spinner para los espacios
         txtNombre_espacio = view.findViewById(R.id.SpinnerNombreEspacio)
-        val opciones = arrayOf("cancha", "gimnasio", "auditorio", "biblioteca")
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, opciones)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        txtNombre_espacio.adapter = adapter
+
+        // Cargar el perfil del usuario
+        cargarPerfilUsuario()
+
+        // Cargar los espacios disponibles desde el backend
+        cargarEspacios()
 
         // Asignar listeners a los botones de calendario y de selección de hora
         btnCalendario.setOnClickListener {
@@ -89,11 +91,77 @@ class Crearreserva : Fragment() {
         return view
     }
 
-    fun crearReserva() {
+    private fun cargarPerfilUsuario() {
+        val requestQueue = Volley.newRequestQueue(requireContext())
+        val urlProfile = config.urlProfile  // URL del endpoint para obtener los datos del perfil del usuario
+        val authToken = sharedPreferences.getString("TOKEN", "")  // Obtener el token de SharedPreferences
+
+        val jsonObjectRequest = object : JsonObjectRequest(
+            Request.Method.GET,
+            urlProfile,
+            null,
+            { response ->
+                // Establecer los valores en los campos correspondientes
+                txtNombre_completo.setText(response.getString("nombre_completo"))
+                txtusername.setText(response.getString("username"))
+            },
+            { error ->
+                val networkResponse = error.networkResponse
+                if (networkResponse != null && networkResponse.statusCode == 500) {
+                    Toast.makeText(context, "Error del servidor al cargar el perfil. Código 500", Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(context, "Error al cargar los datos del usuario: ${error.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+        ) {
+            override fun getHeaders(): MutableMap<String, String> {
+                return mutableMapOf("Authorization" to "Bearer $authToken")
+            }
+        }
+
+        requestQueue.add(jsonObjectRequest)
+    }
+
+    private fun cargarEspacios() {
+        // Realizar una solicitud GET para obtener los espacios registrados desde el backend
+        val requestQueue = Volley.newRequestQueue(requireContext())
+        val urlEspacios = config.urlEspacios  // URL de tu API para obtener los espacios
+        val authToken = sharedPreferences.getString("TOKEN", "")  // Obtener el token de SharedPreferences
+
+        val jsonArrayRequest = object : JsonObjectRequest(
+            Request.Method.GET, urlEspacios, null,
+            { response ->
+                val espacios = ArrayList<String>()
+                for (i in 0 until response.length()) {
+                    val espacio = response.getJSONObject(i.toString()).getString("nombre_del_espacio")
+                    espacios.add(espacio)
+                }
+                val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, espacios)
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                txtNombre_espacio.adapter = adapter
+            },
+            { error ->
+                val networkResponse = error.networkResponse
+                if (networkResponse != null && networkResponse.statusCode == 500) {
+                    Toast.makeText(context, "Error del servidor al cargar espacios. Código 500", Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(context, "Error al cargar los espacios: ${error.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+        ) {
+            override fun getHeaders(): MutableMap<String, String> {
+                return mutableMapOf("Authorization" to "Bearer $authToken")
+            }
+        }
+
+        requestQueue.add(jsonArrayRequest)
+    }
+
+    private fun crearReserva() {
         try {
             // Verifica que los campos no estén vacíos
             if (txtNombre_completo.text.isEmpty() ||
-                txtusername.text.isEmpty() ||  // Verificar si el campo de username está vacío
+                txtusername.text.isEmpty() ||
                 txtFecha_entrada.text.isEmpty() ||
                 txtFecha_salida.text.isEmpty() ||
                 txtHora_entrada.text.isEmpty() ||
@@ -123,10 +191,14 @@ class Crearreserva : Fragment() {
             }
 
             // Crear el objeto JSON con los parámetros a enviar
-            val parametros = JSONObject().apply {
-                put("nombre_completo", txtNombre_completo.text.toString())
-                put("username", txtusername.text.toString())  // Agregar el campo de username
-                put("nombre_espacio", txtNombre_espacio.selectedItem.toString())
+            val reservaData = JSONObject().apply {
+                put("userRegistro", JSONObject().apply {
+                    put("nombre_completo", txtNombre_completo.text.toString())
+                    put("username", txtusername.text.toString())
+                })
+                put("espacio", JSONObject().apply {
+                    put("nombre_del_espacio", txtNombre_espacio.selectedItem.toString())
+                })
                 put("fecha_entrada", txtFecha_entrada.text.toString())
                 put("fecha_salida", txtFecha_salida.text.toString())
                 put("hora_entrada", txtHora_entrada.text.toString())
@@ -134,40 +206,35 @@ class Crearreserva : Fragment() {
             }
 
             // Realizar la solicitud POST al backend
-            val request = JsonObjectRequest(
+            val authToken = sharedPreferences.getString("TOKEN", "")  // Obtener el token de SharedPreferences
+
+            val request = object : JsonObjectRequest(
                 Request.Method.POST,
-                config.urlcrearReserva,  // Aquí va la URL del endpoint de backend
-                parametros,
+                config.urlcrearReserva,
+                reservaData,
                 { response ->
                     Toast.makeText(context, "Reserva creada con éxito", Toast.LENGTH_LONG).show()
                 },
                 { error ->
-                    error.networkResponse?.let {
-                        val statusCode = it.statusCode
-                        if (statusCode == 400) {
-                            val errorResponse = String(it.data)
-                            Toast.makeText(context, "Error: $errorResponse", Toast.LENGTH_LONG).show()
-                        } else {
-                            Toast.makeText(context, "Error al crear la reserva", Toast.LENGTH_LONG).show()
-                        }
-                    } ?: run {
-                        Toast.makeText(context, "Error desconocido", Toast.LENGTH_LONG).show()
-                    }
-                    Log.e("Crearreserva", "Error en la solicitud: ${error.message}")
+                    val errorMessage = error.message ?: "Error desconocido"
+                    Toast.makeText(context, "Error al crear la reserva: $errorMessage", Toast.LENGTH_LONG).show()
                 }
-            )
+            ) {
+                override fun getHeaders(): MutableMap<String, String> {
+                    return mutableMapOf("Authorization" to "Bearer $authToken")
+                }
+            }
 
             // Agregar la solicitud a la cola de peticiones
-            val queue = Volley.newRequestQueue(context)
-            queue.add(request)
+            Volley.newRequestQueue(context).add(request)
 
         } catch (error: Exception) {
-            Log.e("Crearreserva", "Error al crear la reserva: ${error.message}")
             error.printStackTrace()
+            Toast.makeText(context, "Error inesperado: ${error.message}", Toast.LENGTH_LONG).show()
         }
     }
 
-    fun mostrarCalendario(text: EditText, esFechaEntrada: Boolean) {
+    private fun mostrarCalendario(text: EditText, esFechaEntrada: Boolean) {
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
@@ -177,46 +244,38 @@ class Crearreserva : Fragment() {
             val selectedDate = Calendar.getInstance().apply {
                 set(selectedYear, selectedMonth, selectedDay)
             }
+            val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            text.setText(sdf.format(selectedDate.time))
 
-            if (selectedDate.before(Calendar.getInstance())) {
-                Toast.makeText(requireContext(), "No puedes seleccionar una fecha anterior a la actual.", Toast.LENGTH_SHORT).show()
+            if (esFechaEntrada) {
+                fechaEntrada = selectedDate
             } else {
-                val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                val formattedDate = dateFormat.format(selectedDate.time)
-                text.setText(formattedDate)
-
-                if (esFechaEntrada) {
-                    fechaEntrada = selectedDate
-                } else {
-                    fechaSalida = selectedDate
-                }
+                fechaSalida = selectedDate
             }
         }, year, month, day)
 
-        datePickerDialog.datePicker.minDate = calendar.timeInMillis
         datePickerDialog.show()
     }
 
-    fun mostrarHora(text: EditText, esHoraEntrada: Boolean) {
+    private fun mostrarHora(text: EditText, esHoraEntrada: Boolean) {
         val calendar = Calendar.getInstance()
-        val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
-        val currentMinute = calendar.get(Calendar.MINUTE)
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(Calendar.MINUTE)
 
         val timePickerDialog = TimePickerDialog(requireContext(), { _, selectedHour, selectedMinute ->
             val selectedTime = Calendar.getInstance().apply {
                 set(Calendar.HOUR_OF_DAY, selectedHour)
                 set(Calendar.MINUTE, selectedMinute)
             }
-
-            val formattedTime = String.format(Locale.getDefault(), "%02d:%02d", selectedHour, selectedMinute)
-            text.setText(formattedTime)
+            val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
+            text.setText(sdf.format(selectedTime.time))
 
             if (esHoraEntrada) {
                 horaEntrada = selectedTime
             } else {
                 horaSalida = selectedTime
             }
-        }, currentHour, currentMinute, true)
+        }, hour, minute, true)
 
         timePickerDialog.show()
     }
