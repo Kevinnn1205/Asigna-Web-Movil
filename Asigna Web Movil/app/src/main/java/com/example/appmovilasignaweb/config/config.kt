@@ -2,7 +2,7 @@ package com.example.appmovilasignaweb.config
 
 class config {
     companion object {
-        val urlBase = "http://10.192.66.46:8888/api/v1/"
+        val urlBase = "http://5.183.11.147:8888/api/v1/"
         val urluserRegistro = urlBase + "user/"
         val urlcrearReserva = urlBase + "reserva/"
 
