@@ -52,21 +52,20 @@
 
     <TextView
         android:id="@+id/textView4"
-        android:layout_width="260dp"
-        android:layout_height="198dp"
+        android:layout_width="264dp"
+        android:layout_height="122dp"
         android:fontFamily="@font/candal"
         android:text="Introduce el correo electrónico
-                asociado a tu cuenta para
-                cambiar tu contraseña."
+                asociado a tu cuenta para cambiar tu contraseña."
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="22sp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.234" />
+        app:layout_constraintVertical_bias="0.302" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView5"
@@ -98,9 +97,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/candal"
-        android:text="Recuperar contraseña"
+        android:text="Recuperar
+        contraseña"
+        android:textAlignment="center"
         android:textColor="#FFFFFF"
-        android:textSize="20sp"
+        android:textSize="35sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
