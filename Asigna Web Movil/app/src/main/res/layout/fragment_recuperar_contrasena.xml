@@ -11,8 +11,8 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView9"
         android:name="com.example.appmovilasignaweb.contendor"
-        android:layout_width="359dp"
-        android:layout_height="615dp"
+        android:layout_width="351dp"
+        android:layout_height="731dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
