@@ -6,65 +6,55 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="#EFFAFF">
-
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView8"
-        android:name="com.example.appmovilasignaweb.fondoGris"
-        android:layout_width="387dp"
-        android:layout_height="637dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.829" />
+    android:background="#202C4A">
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="388dp"
-        android:layout_height="106dp"
+        android:layout_width="400dp"
+        android:layout_height="53dp"
         android:fontFamily="@font/candal"
         android:text="Ingresa una contraseña de fácil recordación"
         android:textAlignment="center"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.478"
+        app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.174" />
+        app:layout_constraintVertical_bias="0.128" />
 
     <TextView
         android:id="@+id/textView4"
-        android:layout_width="229dp"
-        android:layout_height="31dp"
+        android:layout_width="203dp"
+        android:layout_height="33dp"
         android:fontFamily="@font/candal"
         android:text="Nueva contraseña"
         android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="22sp"
+        android:textColor="@color/white"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.088"
+        app:layout_constraintHorizontal_bias="0.076"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.382" />
 
     <TextView
         android:id="@+id/textView7"
-        android:layout_width="278dp"
-        android:layout_height="35dp"
+        android:layout_width="210dp"
+        android:layout_height="37dp"
         android:fontFamily="@font/candal"
         android:text="Contraseña actual:"
         android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="22sp"
+        android:textColor="@color/white"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.079"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.324" />
+        app:layout_constraintVertical_bias="0.244" />
 
     <EditText
         android:id="@+id/editTextTextPassword"
@@ -72,15 +62,16 @@
         android:layout_height="39dp"
         android:background="@drawable/rounded_edit_text"
         android:ems="10"
+        android:gravity="center"
         android:inputType="textPassword"
         android:maxLength="20"
         android:textColor="@color/black"
-        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.432"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.607" />
+        app:layout_constraintVertical_bias="0.433" />
 
     <EditText
         android:id="@+id/editTextTextPassword1"
@@ -88,32 +79,32 @@
         android:layout_height="36dp"
         android:background="@drawable/rounded_edit_text"
         android:ems="10"
+        android:gravity="center"
         android:inputType="textPassword"
         android:maxLength="20"
         android:textColor="@color/black"
-        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.457"
+        app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.416" />
+        app:layout_constraintVertical_bias="0.297" />
 
     <TextView
         android:id="@+id/textView5"
-        android:layout_width="294dp"
-        android:layout_height="28dp"
+        android:layout_width="245dp"
+        android:layout_height="34dp"
         android:fontFamily="@font/candal"
         android:text="Confirmar contraseña:"
         android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="22sp"
+        android:textColor="@color/white"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.15"
+        app:layout_constraintHorizontal_bias="0.096"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.707" />
+        app:layout_constraintVertical_bias="0.515" />
 
     <EditText
         android:id="@+id/editTextTextPassword2"
@@ -121,31 +112,30 @@
         android:layout_height="37dp"
         android:background="@drawable/rounded_edit_text"
         android:ems="10"
+        android:gravity="center"
         android:inputType="textPassword"
         android:maxLength="20"
         android:textColor="@color/black"
-        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.542"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.81" />
+        app:layout_constraintVertical_bias="0.566" />
 
     <Button
         android:id="@+id/btnGuardar"
         android:layout_width="153dp"
         android:layout_height="61dp"
-        android:backgroundTint="#202C4A"
+        android:backgroundTint="#3EBFFF"
         android:fontFamily="@font/candal"
         android:text="Enviar"
-        android:textColor="#FFFFFF"
+        android:textColor="#202c4a"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.947" />
+        app:layout_constraintVertical_bias="0.682" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView5"
@@ -187,5 +177,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.022"
         app:srcCompat="@mipmap/iconovolver" />
+
+    <ImageView
+        android:id="@+id/imageView16"
+        android:layout_width="362dp"
+        android:layout_height="213dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@mipmap/cambiarcontra" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
