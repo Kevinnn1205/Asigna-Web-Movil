@@ -8,111 +8,115 @@
     android:background="#FDFDFD"
     tools:context=".MainActivity">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="691dp"
-        android:layout_height="397dp"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView9"
+        android:name="com.example.appmovilasignaweb.contendor"
+        android:layout_width="359dp"
+        android:layout_height="615dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="0.784" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="471dp"
+        android:layout_height="263dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@mipmap/recuperarcontra" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="0dp"
-        android:layout_height="439dp"
-        android:background="#202C4A"
+    <EditText
+        android:id="@+id/emailInput"
+        android:layout_width="320dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_edit_text"
+        android:hint="Correo electrónico"
+        android:inputType="textEmailAddress"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.482"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.462" />
+
+    <Button
+        android:id="@+id/btnGuardar"
+        android:layout_width="153dp"
+        android:layout_height="61dp"
+        android:backgroundTint="#3EBFFF"
+        android:fontFamily="@font/candal"
+        android:onClick="iringresarcodigo"
+        android:text="Enviar"
+        android:textColor="#202C4A"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.586" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="260dp"
+        android:layout_height="198dp"
+        android:fontFamily="@font/candal"
+        android:text="Introduce el correo electrónico
+                asociado a tu cuenta para
+                cambiar tu contraseña."
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.234" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView5"
+        android:name="com.example.appmovilasignaweb.contendor"
+        android:layout_width="408dp"
+        android:layout_height="67dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintVertical_bias="0.0" />
 
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="366dp"
-            android:layout_height="107dp"
-            android:fontFamily="@font/candal"
-            android:text="Recuperar contraseña"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="34sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.008" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="395dp"
-            android:layout_height="123dp"
-            android:fontFamily="@font/candal"
-            android:text="Introduce el correo electrónico
-            asociado a tu cuenta para
-            cambiar tu contraseña."
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="22sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.533"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.37" />
-
-
-        <EditText
-            android:id="@+id/emailInput"
-            android:layout_width="382dp"
-            android:layout_height="51dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/rounded_edit_text"
-            android:hint="Correo electrónico"
-            android:inputType="textEmailAddress"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textView4"
-            app:layout_constraintVertical_bias="0.054" />
-
-        <Button
-            android:id="@+id/btnGuardar"
-            android:layout_width="153dp"
-            android:layout_height="61dp"
-            android:backgroundTint="#3EBFFF"
-            android:fontFamily="@font/candal"
-            android:onClick="iringresarcodigo"
-            android:text="Enviar"
-            android:textColor="#202C4A"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.886" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/candal"
+        android:text="Recuperar contraseña"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.022" />
 
     <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="43dp"
-        android:layout_height="45dp"
+        android:id="@+id/imageView2"
+        android:layout_width="47dp"
+        android:layout_height="35dp"
         android:onClick="volver"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.043"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023"
-        app:srcCompat="@mipmap/flechaiz" />
-
+        app:layout_constraintVertical_bias="0.022"
+        app:srcCompat="@mipmap/iconovolver" />
 </androidx.constraintlayout.widget.ConstraintLayout>
