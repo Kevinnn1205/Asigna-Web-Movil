@@ -78,7 +78,7 @@ class cambiarcontrasena : AppCompatActivity() {
 
     private fun obtenerToken(): String {
         // Obtener el token almacenado en SharedPreferences
-        return sharedPreferences.getString("TOKEN", "") ?: ""
+        return sharedPreferences.getString("token", "") ?: ""
     }
 
     private fun mostrarAlertaExito() {

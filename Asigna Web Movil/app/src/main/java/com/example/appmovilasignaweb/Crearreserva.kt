@@ -13,6 +13,7 @@ import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.example.appmovilasignaweb.config.config
+import org.json.JSONException
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
@@ -60,11 +61,8 @@ class Crearreserva : Fragment() {
         // Spinner para los espacios
         txtNombre_espacio = view.findViewById(R.id.SpinnerNombreEspacio)
 
-        // Cargar el perfil del usuario
-        cargarPerfilUsuario()
-
-        // Cargar los espacios disponibles desde el backend
-        cargarEspacios()
+        // Cargar los datos del perfil del usuario y los espacios
+        cargarDatos()
 
         // Asignar listeners a los botones de calendario y de selección de hora
         btnCalendario.setOnClickListener {
@@ -91,70 +89,81 @@ class Crearreserva : Fragment() {
         return view
     }
 
-    private fun cargarPerfilUsuario() {
-        val requestQueue = Volley.newRequestQueue(requireContext())
-        val urlProfile = config.urlProfile  // URL del endpoint para obtener los datos del perfil del usuario
-        val authToken = sharedPreferences.getString("TOKEN", "")  // Obtener el token de SharedPreferences
+    private fun cargarDatos() {
+        // Inicializa el token
+        val authToken = sharedPreferences.getString("token", "")
 
-        val jsonObjectRequest = object : JsonObjectRequest(
+        // Verifica si el token es válido
+        if (authToken.isNullOrEmpty()) {
+            Toast.makeText(requireContext(), "No se ha encontrado el token de autenticación. Por favor, inicie sesión.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val requestQueue = Volley.newRequestQueue(requireContext())
+        val urlProfile = config.urlProfile
+
+        // Cargar el perfil del usuario
+        val jsonObjectRequestPerfil = object : JsonObjectRequest(
             Request.Method.GET,
             urlProfile,
             null,
             { response ->
-                // Establecer los valores en los campos correspondientes
-                txtNombre_completo.setText(response.getString("nombre_completo"))
-                txtusername.setText(response.getString("username"))
+                try {
+                    txtNombre_completo.setText(response.getString("nombre_completo"))
+                    txtusername.setText(response.getString("username"))
+
+                    // Después de cargar el perfil, cargar los espacios
+                    cargarEspacios(authToken)
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                    Toast.makeText(context, "Error al procesar los datos del usuario.", Toast.LENGTH_SHORT).show()
+                }
             },
             { error ->
-                val networkResponse = error.networkResponse
-                if (networkResponse != null && networkResponse.statusCode == 500) {
-                    Toast.makeText(context, "Error del servidor al cargar el perfil. Código 500", Toast.LENGTH_LONG).show()
-                } else {
-                    Toast.makeText(context, "Error al cargar los datos del usuario: ${error.message}", Toast.LENGTH_SHORT).show()
-                }
+                error.printStackTrace()
+                Toast.makeText(context, "Error al cargar los datos del usuario. Por favor, intenta nuevamente.", Toast.LENGTH_SHORT).show()
             }
         ) {
             override fun getHeaders(): MutableMap<String, String> {
-                return mutableMapOf("Authorization" to "Bearer $authToken")
+                return hashMapOf("Authorization" to "Bearer $authToken")
             }
         }
 
-        requestQueue.add(jsonObjectRequest)
+        requestQueue.add(jsonObjectRequestPerfil)
     }
 
-    private fun cargarEspacios() {
-        // Realizar una solicitud GET para obtener los espacios registrados desde el backend
+    private fun cargarEspacios(authToken: String) {
+        val urlEspacios = config.urlEspacios
         val requestQueue = Volley.newRequestQueue(requireContext())
-        val urlEspacios = config.urlEspacios  // URL de tu API para obtener los espacios
-        val authToken = sharedPreferences.getString("TOKEN", "")  // Obtener el token de SharedPreferences
 
-        val jsonArrayRequest = object : JsonObjectRequest(
+        val jsonObjectRequestEspacios = object : JsonObjectRequest(
             Request.Method.GET, urlEspacios, null,
             { response ->
-                val espacios = ArrayList<String>()
-                for (i in 0 until response.length()) {
-                    val espacio = response.getJSONObject(i.toString()).getString("nombre_del_espacio")
-                    espacios.add(espacio)
+                try {
+                    val espacios = ArrayList<String>()
+                    for (i in 0 until response.length()) {
+                        val espacio = response.getJSONObject(i.toString()).getString("nombre_del_espacio")
+                        espacios.add(espacio)
+                    }
+                    val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, espacios)
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    txtNombre_espacio.adapter = adapter
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                    Toast.makeText(context, "Error al procesar la lista de espacios.", Toast.LENGTH_SHORT).show()
                 }
-                val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, espacios)
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                txtNombre_espacio.adapter = adapter
             },
             { error ->
-                val networkResponse = error.networkResponse
-                if (networkResponse != null && networkResponse.statusCode == 500) {
-                    Toast.makeText(context, "Error del servidor al cargar espacios. Código 500", Toast.LENGTH_LONG).show()
-                } else {
-                    Toast.makeText(context, "Error al cargar los espacios: ${error.message}", Toast.LENGTH_SHORT).show()
-                }
+                error.printStackTrace()
+                Toast.makeText(context, "Error al cargar los espacios. Por favor, intenta nuevamente.", Toast.LENGTH_SHORT).show()
             }
         ) {
             override fun getHeaders(): MutableMap<String, String> {
-                return mutableMapOf("Authorization" to "Bearer $authToken")
+                return hashMapOf("Authorization" to "Bearer $authToken")
             }
         }
 
-        requestQueue.add(jsonArrayRequest)
+        requestQueue.add(jsonObjectRequestEspacios)
     }
 
     private fun crearReserva() {
@@ -206,7 +215,7 @@ class Crearreserva : Fragment() {
             }
 
             // Realizar la solicitud POST al backend
-            val authToken = sharedPreferences.getString("TOKEN", "")  // Obtener el token de SharedPreferences
+            val authToken = sharedPreferences.getString("token", "")  // Obtener el token de SharedPreferences
 
             val request = object : JsonObjectRequest(
                 Request.Method.POST,
@@ -221,7 +230,9 @@ class Crearreserva : Fragment() {
                 }
             ) {
                 override fun getHeaders(): MutableMap<String, String> {
-                    return mutableMapOf("Authorization" to "Bearer $authToken")
+                    val headers = HashMap<String, String>()
+                    headers["Authorization"] = "Bearer $authToken"
+                    return headers
                 }
             }
 
