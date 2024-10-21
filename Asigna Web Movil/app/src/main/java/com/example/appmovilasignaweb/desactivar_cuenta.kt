@@ -36,13 +36,9 @@ class desactivar_cuenta : AppCompatActivity() {
 
         // Inicializar botones
         val btnDesactivar: Button = findViewById(R.id.btnGuardar)
-        val btnVolver: ImageView = findViewById(R.id.imageView3)
 
         // Configurar el listener del botón de desactivar cuenta
         btnDesactivar.setOnClickListener { irDesactivarCuenta(it) }
-
-        // Configurar el listener del botón de volver
-        btnVolver.setOnClickListener { volver() }
     }
 
     // Método para obtener datos del usuario
@@ -140,8 +136,9 @@ class desactivar_cuenta : AppCompatActivity() {
         }
     }
 
-    // Método para volver
-    private fun volver() {
-        finish() // Cierra la actividad actual
+    fun volver(view: View) {
+        val intent = Intent(application, miperfil::class.java)
+        startActivity(intent)
     }
+
 }
