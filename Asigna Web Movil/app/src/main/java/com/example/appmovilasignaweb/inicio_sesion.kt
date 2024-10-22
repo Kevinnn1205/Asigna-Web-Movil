@@ -80,6 +80,11 @@ class inicio_sesion : AppCompatActivity() {
                 try {
                     val token = response.getString("token")
 
+                    // Guardar el token en SharedPreferences
+                    val editor = sharedPreferences.edit()
+                    editor.putString("token", token)
+                    editor.apply()
+
                     // Llamar a la función para verificar el estado del usuario
                     checkUserStatus(token)
 
@@ -98,7 +103,8 @@ class inicio_sesion : AppCompatActivity() {
         requestQueue.add(jsonObjectRequest)
     }
 
-    private fun checkUserStatus(token: String) {
+
+private fun checkUserStatus(token: String) {
         val url = urlBase + "user/verificar-estado"
 
         val jsonObjectRequest = object : JsonObjectRequest(

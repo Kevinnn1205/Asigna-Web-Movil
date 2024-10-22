@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.android.volley.Request
+import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.example.appmovilasignaweb.config.config
@@ -21,7 +22,7 @@ import java.util.*
 class Crearreserva : Fragment() {
 
     private lateinit var txtNombre_completo: EditText
-    private lateinit var txtusername: EditText  // Campo para el correo electrónico
+    private lateinit var txtusername: EditText
     private lateinit var txtNombre_espacio: Spinner
     private lateinit var txtFecha_entrada: EditText
     private lateinit var txtFecha_salida: EditText
@@ -99,6 +100,9 @@ class Crearreserva : Fragment() {
             return
         }
 
+        // Mostrar el token para verificar que se está obteniendo
+        Toast.makeText(requireContext(), "Token: $authToken", Toast.LENGTH_LONG).show()
+
         val requestQueue = Volley.newRequestQueue(requireContext())
         val urlProfile = config.urlProfile
 
@@ -136,13 +140,13 @@ class Crearreserva : Fragment() {
         val urlEspacios = config.urlEspacios
         val requestQueue = Volley.newRequestQueue(requireContext())
 
-        val jsonObjectRequestEspacios = object : JsonObjectRequest(
+        val jsonArrayRequestEspacios = object : JsonArrayRequest(
             Request.Method.GET, urlEspacios, null,
             { response ->
                 try {
                     val espacios = ArrayList<String>()
                     for (i in 0 until response.length()) {
-                        val espacio = response.getJSONObject(i.toString()).getString("nombre_del_espacio")
+                        val espacio = response.getJSONObject(i).getString("nombre_del_espacio")
                         espacios.add(espacio)
                     }
                     val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, espacios)
@@ -163,7 +167,7 @@ class Crearreserva : Fragment() {
             }
         }
 
-        requestQueue.add(jsonObjectRequestEspacios)
+        requestQueue.add(jsonArrayRequestEspacios)
     }
 
     private fun crearReserva() {
@@ -215,7 +219,7 @@ class Crearreserva : Fragment() {
             }
 
             // Realizar la solicitud POST al backend
-            val authToken = sharedPreferences.getString("token", "")  // Obtener el token de SharedPreferences
+            val authToken = sharedPreferences.getString("token", "")
 
             val request = object : JsonObjectRequest(
                 Request.Method.POST,
