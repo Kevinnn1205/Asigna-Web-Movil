@@ -82,6 +82,18 @@ class Crearreserva : Fragment() {
             mostrarHora(txtHora_salida, false)
         }
 
+        // Configurar el Spinner para manejar la selección del espacio
+        txtNombre_espacio.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val selectedEspacio = parent?.getItemAtPosition(position).toString()
+                // Aquí puedes manejar la acción que ocurre al seleccionar un espacio
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Aquí puedes manejar el caso en el que no se selecciona nada
+            }
+        }
+
         // Asignar listener al botón de guardar
         btnGuardar.setOnClickListener {
             crearReserva()
@@ -91,22 +103,15 @@ class Crearreserva : Fragment() {
     }
 
     private fun cargarDatos() {
-        // Inicializa el token
         val authToken = sharedPreferences.getString("token", "")
-
-        // Verifica si el token es válido
         if (authToken.isNullOrEmpty()) {
             Toast.makeText(requireContext(), "No se ha encontrado el token de autenticación. Por favor, inicie sesión.", Toast.LENGTH_SHORT).show()
             return
         }
 
-        // Mostrar el token para verificar que se está obteniendo
-        Toast.makeText(requireContext(), "Token: $authToken", Toast.LENGTH_LONG).show()
-
         val requestQueue = Volley.newRequestQueue(requireContext())
         val urlProfile = config.urlProfile
 
-        // Cargar el perfil del usuario
         val jsonObjectRequestPerfil = object : JsonObjectRequest(
             Request.Method.GET,
             urlProfile,
@@ -115,8 +120,6 @@ class Crearreserva : Fragment() {
                 try {
                     txtNombre_completo.setText(response.getString("nombre_completo"))
                     txtusername.setText(response.getString("username"))
-
-                    // Después de cargar el perfil, cargar los espacios
                     cargarEspacios(authToken)
                 } catch (e: JSONException) {
                     e.printStackTrace()
@@ -132,7 +135,6 @@ class Crearreserva : Fragment() {
                 return hashMapOf("Authorization" to "Bearer $authToken")
             }
         }
-
         requestQueue.add(jsonObjectRequestPerfil)
     }
 
@@ -166,13 +168,11 @@ class Crearreserva : Fragment() {
                 return hashMapOf("Authorization" to "Bearer $authToken")
             }
         }
-
         requestQueue.add(jsonArrayRequestEspacios)
     }
 
     private fun crearReserva() {
         try {
-            // Verifica que los campos no estén vacíos
             if (txtNombre_completo.text.isEmpty() ||
                 txtusername.text.isEmpty() ||
                 txtFecha_entrada.text.isEmpty() ||
@@ -183,7 +183,6 @@ class Crearreserva : Fragment() {
                 return
             }
 
-            // Verifica que la fecha y hora de salida no sea anterior a la de entrada
             if (fechaEntrada != null && fechaSalida != null && horaEntrada != null && horaSalida != null) {
                 val fechaHoraEntrada = Calendar.getInstance().apply {
                     time = fechaEntrada!!.time
@@ -203,7 +202,6 @@ class Crearreserva : Fragment() {
                 }
             }
 
-            // Crear el objeto JSON con los parámetros a enviar
             val reservaData = JSONObject().apply {
                 put("userRegistro", JSONObject().apply {
                     put("nombre_completo", txtNombre_completo.text.toString())
@@ -218,9 +216,7 @@ class Crearreserva : Fragment() {
                 put("hora_salida", txtHora_salida.text.toString())
             }
 
-            // Realizar la solicitud POST al backend
             val authToken = sharedPreferences.getString("token", "")
-
             val request = object : JsonObjectRequest(
                 Request.Method.POST,
                 config.urlcrearReserva,
@@ -240,7 +236,6 @@ class Crearreserva : Fragment() {
                 }
             }
 
-            // Agregar la solicitud a la cola de peticiones
             Volley.newRequestQueue(context).add(request)
 
         } catch (error: Exception) {

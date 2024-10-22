@@ -4,7 +4,7 @@ class config {
     companion object {
         val urlBase = "http://10.192.80.114:8888/api/v1/"
         val urluserRegistro = urlBase + "user/"
-        val urlcrearReserva = urlBase + "reserva/"
+        val urlcrearReserva = urlBase + "reserva"
 
         val urllogin = urlBase + "public/user"
         val urlProfile = urlBase + "user/profile"
