@@ -23,4 +23,19 @@ class historial_reservas : AppCompatActivity() {
         val intent = Intent(this, espacios::class.java)
         startActivity(intent)
     }
+
+    fun volver(view: View) {
+        val intent = Intent(this, espacios::class.java)
+        startActivity(intent)
+    }
+
+    fun irAgregarReserva(view: View) {
+        val intent = Intent(this, Contenedor_crear_reserva::class.java)
+        startActivity(intent)
+    }
+
+    fun irMiPerfil(view: View) {
+        val intent = Intent(this, miperfil::class.java)
+        startActivity(intent)
+    }
 }
