@@ -116,8 +116,8 @@ class espacios : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun irModuloInformacion(view: View) {
-        val intent = Intent(this, espacios::class.java)
+    fun irHistorialReservas(view: View) {
+        val intent = Intent(this, historial_reservas::class.java)
         startActivity(intent)
     }
 
