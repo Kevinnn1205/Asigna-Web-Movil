@@ -84,7 +84,12 @@ class Crearreserva : Fragment() {
 
         // Configurar el Spinner para manejar la selección del espacio
         txtNombre_espacio.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 val selectedEspacio = parent?.getItemAtPosition(position).toString()
                 // Aquí puedes manejar la acción que ocurre al seleccionar un espacio
             }
@@ -105,7 +110,11 @@ class Crearreserva : Fragment() {
     private fun cargarDatos() {
         val authToken = sharedPreferences.getString("token", "")
         if (authToken.isNullOrEmpty()) {
-            Toast.makeText(requireContext(), "No se ha encontrado el token de autenticación. Por favor, inicie sesión.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                "No se ha encontrado el token de autenticación. Por favor, inicie sesión.",
+                Toast.LENGTH_SHORT
+            ).show()
             return
         }
 
@@ -123,12 +132,20 @@ class Crearreserva : Fragment() {
                     cargarEspacios(authToken)
                 } catch (e: JSONException) {
                     e.printStackTrace()
-                    Toast.makeText(context, "Error al procesar los datos del usuario.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        "Error al procesar los datos del usuario.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             },
             { error ->
                 error.printStackTrace()
-                Toast.makeText(context, "Error al cargar los datos del usuario. Por favor, intenta nuevamente.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    "Error al cargar los datos del usuario. Por favor, intenta nuevamente.",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         ) {
             override fun getHeaders(): MutableMap<String, String> {
@@ -151,17 +168,29 @@ class Crearreserva : Fragment() {
                         val espacio = response.getJSONObject(i).getString("nombre_del_espacio")
                         espacios.add(espacio)
                     }
-                    val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, espacios)
+                    val adapter = ArrayAdapter(
+                        requireContext(),
+                        android.R.layout.simple_spinner_item,
+                        espacios
+                    )
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                     txtNombre_espacio.adapter = adapter
                 } catch (e: JSONException) {
                     e.printStackTrace()
-                    Toast.makeText(context, "Error al procesar la lista de espacios.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        "Error al procesar la lista de espacios.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             },
             { error ->
                 error.printStackTrace()
-                Toast.makeText(context, "Error al cargar los espacios. Por favor, intenta nuevamente.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    "Error al cargar los espacios. Por favor, intenta nuevamente.",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         ) {
             override fun getHeaders(): MutableMap<String, String> {
@@ -178,8 +207,10 @@ class Crearreserva : Fragment() {
                 txtFecha_entrada.text.isEmpty() ||
                 txtFecha_salida.text.isEmpty() ||
                 txtHora_entrada.text.isEmpty() ||
-                txtHora_salida.text.isEmpty()) {
-                Toast.makeText(context, "Por favor, completa todos los campos.", Toast.LENGTH_SHORT).show()
+                txtHora_salida.text.isEmpty()
+            ) {
+                Toast.makeText(context, "Por favor, completa todos los campos.", Toast.LENGTH_SHORT)
+                    .show()
                 return
             }
 
@@ -197,7 +228,11 @@ class Crearreserva : Fragment() {
                 }
 
                 if (fechaHoraSalida.before(fechaHoraEntrada)) {
-                    Toast.makeText(context, "La hora de salida no puede ser anterior a la de entrada.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        "La hora de salida no puede ser anterior a la de entrada.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     return
                 }
             }
@@ -226,7 +261,11 @@ class Crearreserva : Fragment() {
                 },
                 { error ->
                     val errorMessage = error.message ?: "Error desconocido"
-                    Toast.makeText(context, "Error al crear la reserva: $errorMessage", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        context,
+                        "Error al crear la reserva: $errorMessage",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             ) {
                 override fun getHeaders(): MutableMap<String, String> {
@@ -250,7 +289,8 @@ class Crearreserva : Fragment() {
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-        val datePickerDialog = DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDay ->
+        // Verifica que el contexto esté disponible
+        val datePickerDialog = DatePickerDialog(context ?: return, { _, selectedYear, selectedMonth, selectedDay ->
             val selectedDate = Calendar.getInstance().apply {
                 set(selectedYear, selectedMonth, selectedDay)
             }
@@ -272,7 +312,8 @@ class Crearreserva : Fragment() {
         val hour = calendar.get(Calendar.HOUR_OF_DAY)
         val minute = calendar.get(Calendar.MINUTE)
 
-        val timePickerDialog = TimePickerDialog(requireContext(), { _, selectedHour, selectedMinute ->
+        // Verifica que el contexto esté disponible
+        val timePickerDialog = TimePickerDialog(context ?: return, { _, selectedHour, selectedMinute ->
             val selectedTime = Calendar.getInstance().apply {
                 set(Calendar.HOUR_OF_DAY, selectedHour)
                 set(Calendar.MINUTE, selectedMinute)
