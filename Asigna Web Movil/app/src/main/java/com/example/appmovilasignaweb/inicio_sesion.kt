@@ -16,12 +16,12 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import com.example.appmovilasignaweb.config.config
 import com.example.appmovilasignaweb.config.config.Companion.urlBase
 import com.example.appmovilasignaweb.config.config.Companion.urllogin
 import com.example.appmovilasignaweb.config.config.Companion.urlverificarcontrasena
 import org.json.JSONException
 import org.json.JSONObject
+import android.app.ProgressDialog
 
 class inicio_sesion : AppCompatActivity() {
 
@@ -30,15 +30,16 @@ class inicio_sesion : AppCompatActivity() {
     private lateinit var passwordEditText: EditText
     private lateinit var loginButton: Button
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var progressDialog: ProgressDialog // Declarar el ProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inicio_sesion)
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        // Inicializar ProgressDialog
+        progressDialog = ProgressDialog(this).apply {
+            setMessage("Por favor, espere...")
+            setCancelable(false) // Evita que el usuario lo cierre mientras está activo
         }
 
         // Inicializar Volley RequestQueue
@@ -67,6 +68,9 @@ class inicio_sesion : AppCompatActivity() {
             return
         }
 
+        // Mostrar el ProgressDialog
+        progressDialog.show()
+
         val url = urllogin + "/login/"
 
         val jsonBody = JSONObject().apply {
@@ -91,27 +95,34 @@ class inicio_sesion : AppCompatActivity() {
                 } catch (e: JSONException) {
                     e.printStackTrace()
                     Toast.makeText(this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show()
+                } finally {
+                    // Ocultar el ProgressDialog
+                    progressDialog.dismiss()
                 }
             },
             Response.ErrorListener { error ->
-                // Manejar el error de usuario no encontrado
+                // Manejar el error
                 error.printStackTrace()
                 showAlert("Credenciales incorrectas. Inténtalo de nuevo.", "Aceptar")
+                // Ocultar el ProgressDialog
+                progressDialog.dismiss()
             }
         ) {}
 
         requestQueue.add(jsonObjectRequest)
     }
 
-
-private fun checkUserStatus(token: String) {
+    private fun checkUserStatus(token: String) {
         val url = urlBase + "user/verificar-estado"
+
+        // Mostrar el ProgressDialog
+        progressDialog.show()
 
         val jsonObjectRequest = object : JsonObjectRequest(
             Request.Method.GET, url, null,
             Response.Listener { response ->
                 try {
-                    val estado = response.getString("estado") // Obtener el estado
+                    val estado = response.getString("estado")
 
                     if (estado != "Activo") {
                         showAlert("La cuenta está desactivada", "Aceptar")
@@ -124,11 +135,16 @@ private fun checkUserStatus(token: String) {
                 } catch (e: JSONException) {
                     e.printStackTrace()
                     Toast.makeText(this, "Error al verificar el estado del usuario", Toast.LENGTH_SHORT).show()
+                } finally {
+                    // Ocultar el ProgressDialog
+                    progressDialog.dismiss()
                 }
             },
             Response.ErrorListener { error ->
                 error.printStackTrace()
                 Toast.makeText(this, "Error al verificar el estado del usuario", Toast.LENGTH_SHORT).show()
+                // Ocultar el ProgressDialog
+                progressDialog.dismiss()
             }
         ) {
             override fun getHeaders(): Map<String, String> {
@@ -144,6 +160,9 @@ private fun checkUserStatus(token: String) {
     private fun verificarEstadoContrasena(token: String) {
         val url = urlverificarcontrasena
 
+        // Mostrar el ProgressDialog
+        progressDialog.show()
+
         val jsonObjectRequest = object : JsonObjectRequest(
             Request.Method.GET, url, null,
             Response.Listener { response ->
@@ -151,28 +170,30 @@ private fun checkUserStatus(token: String) {
                     val verificarContrasena = response.getBoolean("verificar_contrasena")
 
                     if (verificarContrasena) {
-                        // Si el usuario debe cambiar su contraseña, lo redirigimos a la pantalla de cambio de contraseña
                         val intent = Intent(this, cambiarcontrasena::class.java)
                         startActivity(intent)
                     } else {
-                        // Si no debe cambiar la contraseña, ahora verificamos el rol
                         obtenerRol(token)
                     }
 
                 } catch (e: JSONException) {
                     e.printStackTrace()
                     Toast.makeText(this, "Error al verificar el estado de la contraseña", Toast.LENGTH_SHORT).show()
+                } finally {
+                    // Ocultar el ProgressDialog
+                    progressDialog.dismiss()
                 }
             },
             Response.ErrorListener { error ->
-                // Manejar el error
                 error.printStackTrace()
                 Toast.makeText(this, "Error al verificar el estado de la contraseña", Toast.LENGTH_SHORT).show()
+                // Ocultar el ProgressDialog
+                progressDialog.dismiss()
             }
         ) {
             override fun getHeaders(): Map<String, String> {
                 val headers = HashMap<String, String>()
-                headers["Authorization"] = "Bearer $token" // Si estás usando JWT
+                headers["Authorization"] = "Bearer $token"
                 return headers
             }
         }
@@ -181,7 +202,7 @@ private fun checkUserStatus(token: String) {
     }
 
     private fun obtenerRol(token: String) {
-        val url = config.urlRol
+        val url = urlBase + "user/rol"
 
         val jsonObjectRequest = object : JsonObjectRequest(
             Request.Method.GET, url, null,
@@ -190,16 +211,10 @@ private fun checkUserStatus(token: String) {
                     val rol = response.getString("role")
 
                     // Redirigir según el rol del usuario
-                    if (rol == "Administrador") {
-                        // Si el usuario es administrador
-                        val intent = Intent(this, moduloInformacionAdmin::class.java)
-                        startActivity(intent)
-                    } else if (rol == "Usuario") {
-                        // Si es un usuario normal
-                        val intent = Intent(this, espacios::class.java)
-                        startActivity(intent)
-                    } else {
-                        Toast.makeText(this, "Rol no reconocido", Toast.LENGTH_SHORT).show()
+                    when (rol) {
+                        "Administrador" -> startActivity(Intent(this, moduloInformacionAdmin::class.java))
+                        "Usuario" -> startActivity(Intent(this, espacios::class.java))
+                        else -> Toast.makeText(this, "Rol no reconocido", Toast.LENGTH_SHORT).show()
                     }
 
                 } catch (e: JSONException) {
@@ -208,7 +223,6 @@ private fun checkUserStatus(token: String) {
                 }
             },
             Response.ErrorListener { error ->
-                // Manejar el error
                 error.printStackTrace()
                 Toast.makeText(this, "Error al obtener el rol", Toast.LENGTH_SHORT).show()
             }
@@ -223,14 +237,13 @@ private fun checkUserStatus(token: String) {
         requestQueue.add(jsonObjectRequest)
     }
 
-    // Función para mostrar alerta
     private fun showAlert(message: String, buttonText: String, onClickAction: (() -> Unit)? = null) {
         val builder = AlertDialog.Builder(this)
         builder.setMessage(message)
             .setCancelable(false)
             .setPositiveButton(buttonText) { dialog, _ ->
                 dialog.dismiss()
-                onClickAction?.invoke()  // Ejecutar la acción adicional si está definida
+                onClickAction?.invoke()
             }
         val alert = builder.create()
         alert.show()
