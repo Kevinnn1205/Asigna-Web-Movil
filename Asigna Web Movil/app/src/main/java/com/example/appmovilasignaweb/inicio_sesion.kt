@@ -22,6 +22,7 @@ import com.example.appmovilasignaweb.config.config.Companion.urlverificarcontras
 import org.json.JSONException
 import org.json.JSONObject
 import android.app.ProgressDialog
+import com.example.appmovilasignaweb.config.config
 
 class inicio_sesion : AppCompatActivity() {
 
@@ -71,7 +72,7 @@ class inicio_sesion : AppCompatActivity() {
         // Mostrar el ProgressDialog
         progressDialog.show()
 
-        val url = urllogin + "/login/"
+        val url = urllogin + "/login"
 
         val jsonBody = JSONObject().apply {
             put("username", username)
@@ -202,7 +203,7 @@ class inicio_sesion : AppCompatActivity() {
     }
 
     private fun obtenerRol(token: String) {
-        val url = urlBase + "user/rol"
+        val url = config.urlRol
 
         val jsonObjectRequest = object : JsonObjectRequest(
             Request.Method.GET, url, null,
@@ -211,10 +212,16 @@ class inicio_sesion : AppCompatActivity() {
                     val rol = response.getString("role")
 
                     // Redirigir según el rol del usuario
-                    when (rol) {
-                        "Administrador" -> startActivity(Intent(this, moduloInformacionAdmin::class.java))
-                        "Usuario" -> startActivity(Intent(this, espacios::class.java))
-                        else -> Toast.makeText(this, "Rol no reconocido", Toast.LENGTH_SHORT).show()
+                    if (rol == "Administrador") {
+                        // Si el usuario es administrador
+                        val intent = Intent(this, moduloInformacionAdmin::class.java)
+                        startActivity(intent)
+                    } else if (rol == "Usuario") {
+                        // Si es un usuario normal
+                        val intent = Intent(this, espacios::class.java)
+                        startActivity(intent)
+                    } else {
+                        Toast.makeText(this, "Rol no reconocido", Toast.LENGTH_SHORT).show()
                     }
 
                 } catch (e: JSONException) {
@@ -223,6 +230,7 @@ class inicio_sesion : AppCompatActivity() {
                 }
             },
             Response.ErrorListener { error ->
+                // Manejar el error
                 error.printStackTrace()
                 Toast.makeText(this, "Error al obtener el rol", Toast.LENGTH_SHORT).show()
             }
@@ -236,6 +244,7 @@ class inicio_sesion : AppCompatActivity() {
 
         requestQueue.add(jsonObjectRequest)
     }
+
 
     private fun showAlert(message: String, buttonText: String, onClickAction: (() -> Unit)? = null) {
         val builder = AlertDialog.Builder(this)
